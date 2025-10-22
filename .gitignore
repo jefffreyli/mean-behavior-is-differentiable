@@ -7,6 +7,33 @@ __pycache__
 *.pyo
 *.code-workspace
 
+# Project-specific artifacts
+datasets/
+results/
+experiment/data/
+experiment/plots/
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.pickle
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Wandb
+wandb/
+wandb_checkpoints/
+
+# Jupyter
+.ipynb_checkpoints/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -41,7 +41,7 @@ def generate_run_id() -> str:
 def init_wandb(args, step_to_start):
     """
     Initialize Weights & Biases for experiment tracking.
-    
+
     Parameters:
     -----------
     args : argparse.Namespace
@@ -49,14 +49,15 @@ def init_wandb(args, step_to_start):
 
     step_to_start: int
         calculated start step
-    
+
     Returns:
     --------
     wandb.run
         Initialized wandb run object
     """
     if not WANDB_AVAILABLE:
-        raise RuntimeError("wandb is not available; call init_wandb only when enabled.")
+        raise RuntimeError(
+            "wandb is not available; call init_wandb only when enabled.")
 
     # Create a name for the run based on dataset, model, batch size, and learning rate
     run_name = _compose_run_name(args)
@@ -73,7 +74,8 @@ def init_wandb(args, step_to_start):
         wandb_config['fork_step'] = step_to_start
 
         run = wandb.init(
-            project=os.getenv("WANDB_PROJECT", "eoss"),
+            project=os.getenv(
+                "WANDB_PROJECT"),
             mode=os.getenv("WANDB_MODE", "offline"),
             # id=args.cont_run_id,
             name=run_name,
@@ -87,7 +89,8 @@ def init_wandb(args, step_to_start):
     else:
         # Create new run
         run = wandb.init(
-            project=os.getenv("WANDB_PROJECT", "eoss"),
+            project=os.getenv(
+                "WANDB_PROJECT"),
             mode=os.getenv("WANDB_MODE", "offline"),   # honours your env var
             name=run_name,
             config=vars(args),      # captures all CLI flags
@@ -96,17 +99,16 @@ def init_wandb(args, step_to_start):
             notes=getattr(args, 'wandb_notes', None)
         )
         print(f"Started new wandb run: {run.id}")
-        
 
     # --- metric definitions so W&B plots look correct -------------
     # use global step (column 1) as the x-axis for everything else
     wandb.define_metric("step")
     for m in [
-        "batch_loss","full_loss","batch_lambda_max","lambda_max",
-        "step_sharpness","batch_sharpn","grad_H_grad","batch_fisher_eigenval",
-        "total_fisher_eigenval","sharpness_static","GNI","accuracy",
+        "batch_loss", "full_loss", "batch_lambda_max", "lambda_max",
+        "step_sharpness", "batch_sharpn", "grad_H_grad", "batch_fisher_eigenval",
+        "total_fisher_eigenval", "sharpness_static", "GNI", "accuracy",
         "hessian_trace",
-        "param_distance","gradient_norm_squared","quadratic_loss_gn","proj_grad_ratio"
+        "param_distance", "gradient_norm_squared", "quadratic_loss_gn", "proj_grad_ratio"
     ]:
         wandb.define_metric(m, step_metric="step")
 
@@ -114,7 +116,7 @@ def init_wandb(args, step_to_start):
     for i in range(1, 21):
         wandb.define_metric(f"grad_projection_{i:02d}", step_metric="step")
     wandb.define_metric("grad_projection_residual", step_metric="step")
-    
+
     return run
 
 
@@ -187,7 +189,7 @@ def log_metrics(metrics: Mapping[str, Any]) -> None:
 def save_checkpoint_wandb(model, optimizer, step, epoch, loss, run_id=None, save_every_n_steps=None):
     """
     Save model checkpoint to separate wandb_checkpoints directory organized by run ID.
-    
+
     Parameters:
     -----------
     model : torch.nn.Module
@@ -204,7 +206,7 @@ def save_checkpoint_wandb(model, optimizer, step, epoch, loss, run_id=None, save
         Wandb run ID. If None, uses current run
     save_every_n_steps : int, optional
         Frequency of checkpointing. If provided, only saves if step % save_every_n_steps == 0
-    
+
     Returns:
     --------
     Path or None
@@ -212,21 +214,22 @@ def save_checkpoint_wandb(model, optimizer, step, epoch, loss, run_id=None, save
     """
     if save_every_n_steps is not None and step % save_every_n_steps != 0:
         return None
-        
+
     if run_id is None:
         if not WANDB_AVAILABLE or wandb.run is None:
-            raise RuntimeError("run_id must be provided when wandb is disabled.")
+            raise RuntimeError(
+                "run_id must be provided when wandb is disabled.")
         run_id = wandb.run.id
-    
+
     # Create checkpoint directory separate from wandb runs
     wandb_dir = Path(os.environ.get("WANDB_DIR", "."))
     checkpoint_base_dir = wandb_dir / "wandb_checkpoints"
     checkpoint_dir = checkpoint_base_dir / run_id
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Save checkpoint with step-based naming
     checkpoint_path = checkpoint_dir / f"checkpoint_step_{step}.pt"
-    
+
     checkpoint_data = {
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
@@ -235,18 +238,18 @@ def save_checkpoint_wandb(model, optimizer, step, epoch, loss, run_id=None, save
         'loss': loss,
         'run_id': run_id
     }
-    
+
     torch.save(checkpoint_data, checkpoint_path)
-    
+
     # Update checkpoint metadata
     metadata_path = checkpoint_dir / "checkpoint_metadata.json"
-    
+
     if metadata_path.exists():
         with open(metadata_path, 'r') as f:
             metadata = json.load(f)
     else:
         metadata = {'checkpoints': []}
-    
+
     # Add/update checkpoint info
     checkpoint_info = {
         'step': step,
@@ -255,24 +258,25 @@ def save_checkpoint_wandb(model, optimizer, step, epoch, loss, run_id=None, save
         'filename': f"checkpoint_step_{step}.pt",
         'path': str(checkpoint_path)
     }
-    
+
     # Remove any existing checkpoint with same step
-    metadata['checkpoints'] = [c for c in metadata['checkpoints'] if c['step'] != step]
+    metadata['checkpoints'] = [
+        c for c in metadata['checkpoints'] if c['step'] != step]
     metadata['checkpoints'].append(checkpoint_info)
-    
+
     # Sort by step for easier lookup
     metadata['checkpoints'].sort(key=lambda x: x['step'])
-    
+
     with open(metadata_path, 'w') as f:
         json.dump(metadata, f, indent=2)
-    
+
     return checkpoint_path
 
 
 def find_closest_checkpoint_wandb(target_step, run_id=None, checkpoint_dir=None):
     """
     Find the checkpoint with step closest to (but not exceeding) target_step.
-    
+
     Parameters:
     -----------
     target_step : int
@@ -281,7 +285,7 @@ def find_closest_checkpoint_wandb(target_step, run_id=None, checkpoint_dir=None)
         Wandb run ID. If None, uses current run
     checkpoint_dir : Path, optional
         Checkpoint directory. If None, uses wandb_checkpoints/{run_id}
-        
+
     Returns:
     --------
     dict or None
@@ -291,45 +295,46 @@ def find_closest_checkpoint_wandb(target_step, run_id=None, checkpoint_dir=None)
     if checkpoint_dir is None:
         if run_id is None:
             if not WANDB_AVAILABLE or wandb.run is None:
-                raise RuntimeError("run_id must be provided when wandb is disabled.")
+                raise RuntimeError(
+                    "run_id must be provided when wandb is disabled.")
             run_id = wandb.run.id
-        
+
         checkpoint_base_dir = Path("wandb_checkpoints")
         checkpoint_dir = checkpoint_base_dir / run_id
-        
+
         if not checkpoint_dir.exists():
             return None
     else:
         checkpoint_dir = Path(checkpoint_dir)
-    
+
     metadata_path = checkpoint_dir / "checkpoint_metadata.json"
-    
+
     if not metadata_path.exists():
         return None
-    
+
     with open(metadata_path, 'r') as f:
         metadata = json.load(f)
-    
+
     checkpoints = metadata.get('checkpoints', [])
     if not checkpoints:
         return None
-    
+
     # Find closest checkpoint not exceeding target_step
     suitable_checkpoints = [c for c in checkpoints if c['step'] <= target_step]
-    
+
     if not suitable_checkpoints:
         return None
-    
+
     # Return checkpoint with highest step that doesn't exceed target
     closest_checkpoint = max(suitable_checkpoints, key=lambda x: x['step'])
-    
+
     return closest_checkpoint
 
 
 def load_checkpoint_wandb(checkpoint_info, model, optimizer=None):
     """
     Load model and optimizer from wandb checkpoint.
-    
+
     Parameters:
     -----------
     checkpoint_info : dict
@@ -338,28 +343,29 @@ def load_checkpoint_wandb(checkpoint_info, model, optimizer=None):
         Model to load state into
     optimizer : torch.optim.Optimizer, optional
         Optimizer to load state into
-        
+
     Returns:
     --------
     dict
         Loaded checkpoint data with keys: step, epoch, loss, run_id
     """
     checkpoint_path = Path(checkpoint_info['path'])
-    
+
     if not checkpoint_path.exists():
-        raise FileNotFoundError(f"Checkpoint file not found: {checkpoint_path}")
-    
+        raise FileNotFoundError(
+            f"Checkpoint file not found: {checkpoint_path}")
+
     device = next(model.parameters()).device
     checkpoint_data = torch.load(checkpoint_path, map_location=device)
-    
+
     model.load_state_dict(checkpoint_data['model_state_dict'])
-    
+
     if optimizer is not None:
         optimizer.load_state_dict(checkpoint_data['optimizer_state_dict'])
-    
+
     return {
         'step': checkpoint_data['step'],
-        'epoch': checkpoint_data['epoch'], 
+        'epoch': checkpoint_data['epoch'],
         'loss': checkpoint_data['loss'],
         'run_id': checkpoint_data.get('run_id')
     }
@@ -368,12 +374,12 @@ def load_checkpoint_wandb(checkpoint_info, model, optimizer=None):
 def get_checkpoint_dir_for_run(run_id):
     """
     Get checkpoint directory for a specific run ID.
-    
+
     Parameters:
     -----------
     run_id : str
         Wandb run ID
-        
+
     Returns:
     --------
     Path or None
@@ -382,8 +388,8 @@ def get_checkpoint_dir_for_run(run_id):
     wandb_dir = Path(os.environ.get("WANDB_DIR", "."))
     checkpoint_base_dir = wandb_dir / "wandb_checkpoints"
     checkpoint_dir = checkpoint_base_dir / run_id
-    
+
     if checkpoint_dir.exists():
         return checkpoint_dir
-    
+
     return None
