@@ -324,10 +324,10 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
             print(f"  Not enough recent checkpoints (need index {checkpoint_index}, have {len(run_dirs_sorted)})")
             return None
             
-                        except Exception as e:
+    except Exception as e:
         print(f"Error searching for checkpoints: {e}")
-                            import traceback
-                            traceback.print_exc()
+        import traceback
+        traceback.print_exc()
     
     return None
 
