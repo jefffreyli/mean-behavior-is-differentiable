@@ -268,13 +268,19 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
             
             print(f"Found {len(collection.runs)} runs with tag {config.WANDB_TAG}")
             
-            # Debug: Print all runs and their LRs
+            # Sort by creation time to get the most recent runs first
+            sorted_runs = sorted(collection.runs, 
+                               key=lambda r: r.metadata.get('created_at', ''), 
+                               reverse=True)
+            
+            # Debug: Print runs sorted by time
             print(f"Looking for run name: {run_name}")
-            for run in collection.runs:
-                print(f"  Run: {run.run_name}, LR: {run.lr}, ID: {run.run_id}")
+            print("Recent runs (sorted by creation time):")
+            for i, run in enumerate(sorted_runs[:6]):  # Show top 6
+                print(f"  {i+1}. Run: {run.run_name}, ID: {run.run_id}, Created: {run.metadata.get('created_at', 'unknown')}")
             
             # Find the run with matching name (since LR is not saved in config)
-            for run in collection.runs:
+            for run in sorted_runs:
                 if run.run_name == run_name:
                     print(f"Found matching run: {run.run_name} (ID: {run.run_id})")
                     
