@@ -234,49 +234,68 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
     Returns:
         Logits array of shape (n_test, n_classes)
     """
-    # Find the run using wandb API
-    if not WANDB_AVAILABLE:
-        print("Warning: wandb not available, cannot collect logits")
-        return None
+    # First try to find the run using wandb API (online)
+    if WANDB_AVAILABLE:
+        try:
+            api = wandb.Api()
+            entity = os.getenv("WANDB_ENTITY", api.default_entity)
+            project = os.getenv("WANDB_PROJECT")
+            project_path = f"{entity}/{project}"
 
-    api = wandb.Api()
+            # Search for the run
+            run_name = f"exp_lr{lr}_run{run_idx}"
+            runs = api.runs(project_path, filters={
+                            "tags": config.WANDB_TAG, "display_name": run_name})
+            runs_list = list(runs)
+            print(f"Found {len(runs_list)} runs for {run_name}")
 
-    # Get entity and project
-    entity = os.getenv("WANDB_ENTITY", api.default_entity)
-    project = os.getenv("WANDB_PROJECT")
-    project_path = f"{entity}/{project}"
+            if runs_list:
+                run = runs_list[0]
+                run_id = run.id
+                checkpoint_dir = get_checkpoint_dir_for_run(run_id)
+                if checkpoint_dir and checkpoint_dir.exists():
+                    return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
+        except Exception as e:
+            print(f"Warning: Error querying wandb for {run_name}: {e}")
 
-    # Search for the run
-    run_name = f"exp_lr{lr}_run{run_idx}"
-    try:
-        runs = api.runs(project_path, filters={
-                        "tags": config.WANDB_TAG, "display_name": run_name})
-        runs_list = list(runs)
-        print(f"Found {len(runs_list)} runs for {run_name}")
-    except Exception as e:
-        print(f"Warning: Error querying wandb for {run_name}: {e}")
-        return None
+    # Fallback: try to find offline runs in the wandb directory
+    print(f"Trying to find offline run for {run_name}")
+    wandb_dir = Path(os.environ.get("WANDB_DIR", "."))
+    offline_runs_dir = wandb_dir / "wandb"
+    
+    print(f"Looking in wandb directory: {offline_runs_dir}")
+    print(f"Directory exists: {offline_runs_dir.exists()}")
+    
+    if offline_runs_dir.exists():
+        print(f"Contents of wandb directory: {list(offline_runs_dir.iterdir())}")
+        # Look for runs with matching name pattern
+        for run_dir in offline_runs_dir.iterdir():
+            if run_dir.is_dir():
+                print(f"Checking run directory: {run_dir.name}")
+                if f"exp_lr{lr}_run{run_idx}" in run_dir.name:
+                    print(f"Found offline run directory: {run_dir}")
+                    # Look for checkpoint directory
+                    checkpoint_dir = run_dir / "files" / "wandb_checkpoints"
+                    print(f"Looking for checkpoints in: {checkpoint_dir}")
+                    if checkpoint_dir.exists():
+                        print(f"Found checkpoint directory: {checkpoint_dir}")
+                        return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
+                    else:
+                        print(f"Checkpoint directory not found: {checkpoint_dir}")
+    else:
+        print(f"Wandb directory does not exist: {offline_runs_dir}")
+    
+    print(f"Warning: No run found for {run_name}")
+    return None
 
-    if not runs_list:
-        print(f"Warning: No run found for {run_name}")
-        print(f"Project path: {project_path}")
-        print(f"Tag filter: {config.WANDB_TAG}")
-        print(f"Display name filter: {run_name}")
-        return None
 
-    run = runs_list[0]
-    run_id = run.id
-
-    # Find checkpoint directory
-    checkpoint_dir = get_checkpoint_dir_for_run(run_id)
-    if checkpoint_dir is None or not checkpoint_dir.exists():
-        print(f"Warning: No checkpoint found for run {run_id}")
-        return None
-
+def _load_logits_from_checkpoint_dir(checkpoint_dir: Path, config: ExperimentConfig, 
+                                   X_test: torch.Tensor, device: str) -> np.ndarray:
+    """Helper function to load logits from a checkpoint directory."""
     # Find the final checkpoint
     metadata_file = checkpoint_dir / "checkpoint_metadata.json"
     if not metadata_file.exists():
-        print(f"Warning: No metadata file for run {run_id}")
+        print(f"Warning: No metadata file in {checkpoint_dir}")
         return None
 
     with open(metadata_file, 'r') as f:
@@ -284,7 +303,7 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
 
     checkpoints = metadata.get('checkpoints', [])
     if not checkpoints:
-        print(f"Warning: No checkpoints in metadata for run {run_id}")
+        print(f"Warning: No checkpoints in metadata in {checkpoint_dir}")
         return None
 
     # Get the last checkpoint
@@ -424,9 +443,15 @@ def generate_correlation_plot(config: ExperimentConfig):
 
     # Save plot
     output_file = config.PLOTS_DIR / "correlation_plot.png"
+    print(f"Saving plot to: {output_file}")
+    print(f"Plots directory exists: {config.PLOTS_DIR.exists()}")
+    if not config.PLOTS_DIR.exists():
+        print(f"Creating plots directory: {config.PLOTS_DIR}")
+        config.PLOTS_DIR.mkdir(parents=True, exist_ok=True)
+    
     plt.tight_layout()
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
-    print(f"\nPlot saved to: {output_file}")
+    print(f"Plot saved successfully to: {output_file}")
     plt.close()
 
 
@@ -537,8 +562,14 @@ def generate_sharpness_plots(config: ExperimentConfig):
 
     # Save plot
     output_file = config.PLOTS_DIR / "sharpness_comparison.png"
+    print(f"Saving sharpness plot to: {output_file}")
+    print(f"Plots directory exists: {config.PLOTS_DIR.exists()}")
+    if not config.PLOTS_DIR.exists():
+        print(f"Creating plots directory: {config.PLOTS_DIR}")
+        config.PLOTS_DIR.mkdir(parents=True, exist_ok=True)
+    
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
-    print(f"\nPlot saved to: {output_file}")
+    print(f"Sharpness plot saved successfully to: {output_file}")
     plt.close()
 
 
@@ -561,19 +592,42 @@ def main():
         default="cuda" if torch.cuda.is_available() else "cpu",
         help="Device to use for logit collection"
     )
+    parser.add_argument(
+        "--local-mode",
+        action="store_true",
+        help="Run in local mode without wandb (for testing)"
+    )
 
     args = parser.parse_args()
     config = ExperimentConfig()
 
-    if args.mode in ["train", "all"]:
-        run_all_training(config)
+    if args.local_mode:
+        print("Running in local mode (no wandb)")
+        # In local mode, skip training and collect, just test plot generation
+        if args.mode in ["analyze", "all"]:
+            # Create dummy data for testing
+            print("Creating dummy logits for testing...")
+            for lr in config.LEARNING_RATES:
+                logits_dir = config.get_logits_dir(lr)
+                logits_dir.mkdir(exist_ok=True, parents=True)
+                
+                # Create dummy logits (1000 test samples, 2 classes)
+                dummy_logits = np.random.randn(1000, 2)
+                np.save(logits_dir / "run_0.npy", dummy_logits)
+                print(f"Created dummy logits for LR={lr}")
+            
+            generate_correlation_plot(config)
+            print("Local mode test completed")
+    else:
+        if args.mode in ["train", "all"]:
+            run_all_training(config)
 
-    if args.mode in ["collect", "all"]:
-        collect_all_logits(config, device=args.device)
+        if args.mode in ["collect", "all"]:
+            collect_all_logits(config, device=args.device)
 
-    if args.mode in ["analyze", "all"]:
-        generate_correlation_plot(config)
-        generate_sharpness_plots(config)
+        if args.mode in ["analyze", "all"]:
+            generate_correlation_plot(config)
+            generate_sharpness_plots(config)
 
     print("\n" + "="*60)
     print("EXPERIMENT COMPLETE")

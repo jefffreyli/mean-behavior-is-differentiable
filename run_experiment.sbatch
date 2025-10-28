@@ -45,14 +45,14 @@ nvidia-smi || echo "GPU check failed"
 echo "Running training..."
 python experiment/main.py --mode train --device cuda
 
+# --- Sync wandb offline runs before collection ---
+echo "Syncing wandb runs..."
+wandb sync "$RESULTS" || echo "Wandb sync failed, continuing..."
+
 echo "Running collect..."
 python experiment/main.py --mode collect --device cuda
 
 echo "Running analyze..."
 python experiment/main.py --mode analyze --device cuda
-
-# --- Sync wandb offline runs ---
-echo "Syncing wandb runs..."
-wandb sync "$RESULTS" || echo "Wandb sync failed, continuing..."
 
 echo "Experiment complete!"
