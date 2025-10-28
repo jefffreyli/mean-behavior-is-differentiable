@@ -135,10 +135,12 @@ def run_single_training(lr: float, run_idx: int, config: ExperimentConfig) -> Di
     print(f"{'='*60}")
 
     # Run training
-    result = subprocess.run(cmd, cwd=config.EXPERIMENT_DIR.parent)
+    result = subprocess.run(cmd, cwd=config.EXPERIMENT_DIR.parent, capture_output=True, text=True)
 
     if result.returncode != 0:
         print(f"Warning: Training failed with return code {result.returncode}")
+        print(f"STDOUT: {result.stdout}")
+        print(f"STDERR: {result.stderr}")
         return {"lr": lr, "run_idx": run_idx, "seed": seed, "success": False}
 
     return {"lr": lr, "run_idx": run_idx, "seed": seed, "success": True}
@@ -250,12 +252,16 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
         runs = api.runs(project_path, filters={
                         "tags": config.WANDB_TAG, "display_name": run_name})
         runs_list = list(runs)
+        print(f"Found {len(runs_list)} runs for {run_name}")
     except Exception as e:
         print(f"Warning: Error querying wandb for {run_name}: {e}")
         return None
 
     if not runs_list:
         print(f"Warning: No run found for {run_name}")
+        print(f"Project path: {project_path}")
+        print(f"Tag filter: {config.WANDB_TAG}")
+        print(f"Display name filter: {run_name}")
         return None
 
     run = runs_list[0]

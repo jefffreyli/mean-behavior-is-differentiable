@@ -30,16 +30,28 @@ class Run:
                                '_timestamp', 'power_iteration_iterations']
         self._df = None  # Private DataFrame, loaded on demand
 
+        # Handle case where config might be a string or not a dict
+        if isinstance(self.config, dict):
+            config_dict = self.config
+        else:
+            # If config is not a dict, try to get it from run.config or use empty dict
+            try:
+                config_dict = getattr(run, 'config', {})
+                if not isinstance(config_dict, dict):
+                    config_dict = {}
+            except:
+                config_dict = {}
+
         # Extract metadata from config
         self._metadata = {
-            'lr': self.config.get('lr', np.nan),
-            'batch_size': self.config.get('batch', np.nan),
-            'dataset': self.config.get('dataset', 'unknown'),
-            'model': self.config.get('model', 'unknown'),
+            'lr': config_dict.get('lr', np.nan),
+            'batch_size': config_dict.get('batch', np.nan),
+            'dataset': config_dict.get('dataset', 'unknown'),
+            'model': config_dict.get('model', 'unknown'),
             'run_id': self.run.id,
             'run_name': self.run.name,
             'created_at': self.run.created_at,
-            'dataset_size': self.config.get('num_data', 8192)
+            'dataset_size': config_dict.get('num_data', 8192)
         }
 
     @property
