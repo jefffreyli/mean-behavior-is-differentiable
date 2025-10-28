@@ -283,7 +283,7 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
         
         # Get the learning rates being tested (from config)
         learning_rates = config.LEARNING_RATES
-        runs_per_lr = config.RUNS_PER_LR
+        runs_per_lr = config.N_RUNS_PER_LR
         
         # Calculate which run this is overall
         # Find the index of this lr in the list
