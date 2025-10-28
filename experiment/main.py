@@ -273,18 +273,18 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
             # Debug: Print all runs and their LRs
             print(f"Looking for LR: {lr}")
             for run in collection.runs:
-                print(f"  Run: {run.name}, LR: {run.lr}, ID: {run.id}")
+                print(f"  Run: {run.run_name}, LR: {run.lr}, ID: {run.run_id}")
             
             # Find the run with matching LR
             for run in collection.runs:
                 if abs(run.lr - lr) < 0.001:  # Float comparison with tolerance
-                    print(f"Found matching run: {run.name} (ID: {run.id}, LR: {run.lr})")
+                    print(f"Found matching run: {run.run_name} (ID: {run.run_id}, LR: {run.lr})")
                     
                     # Look for checkpoints using the run ID
                     wandb_dir = Path(os.environ.get("WANDB_DIR", "."))
                     checkpoint_locations = [
-                        wandb_dir / "wandb_checkpoints" / run.id,
-                        Path(os.environ.get("RESULTS", ".")) / "wandb_checkpoints" / run.id,
+                        wandb_dir / "wandb_checkpoints" / run.run_id,
+                        Path(os.environ.get("RESULTS", ".")) / "wandb_checkpoints" / run.run_id,
                     ]
                     
                     for checkpoint_dir in checkpoint_locations:
