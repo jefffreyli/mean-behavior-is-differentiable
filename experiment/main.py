@@ -128,7 +128,7 @@ def run_single_training(lr: float, run_idx: int, config: ExperimentConfig) -> Di
         "--lambdamax",
         "--wandb-tag", config.WANDB_TAG,
         "--wandb-name", f"exp_lr{lr}_run{run_idx}",
-        "--checkpoint-every-n-steps", "1",  # Save checkpoint every step for logit collection
+        "--checkpoint-every", "1",  # Save checkpoint every step for logit collection
     ]
 
     print(f"\n{'='*60}")
