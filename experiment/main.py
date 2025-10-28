@@ -255,11 +255,13 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
     
     print(f"Searching for run: {run_name}")
     
-    # In offline mode, wandb.Api() won't find recent runs until they're synced.
-    # Instead, look directly at the filesystem for checkpoint directories.
+    # In offline mode, wandb metadata files don't exist until runs are synced.
+    # Instead, match runs by timestamp and order of execution.
+    # The experiment runs sequentially: LR 0.4, then 0.5, then 0.6
+    # So we can match the 3 most recent checkpoints to the LRs in reverse order.
+    
     results_dir = Path(os.environ.get("RESULTS", "."))
     checkpoint_base = results_dir / "wandb_checkpoints"
-    wandb_base = results_dir / "wandb"
     
     print(f"Looking in checkpoint directory: {checkpoint_base}")
     
@@ -272,80 +274,60 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
         run_dirs = [d for d in checkpoint_base.iterdir() if d.is_dir()]
         print(f"Found {len(run_dirs)} checkpoint directories")
         
-        # For each run directory, try to find the corresponding offline wandb run
-        # to get the run name, then match it
-        candidates = []
-        
-        # Debug: Check the most recent checkpoint directories
+        # Sort by modification time (most recent first)
         run_dirs_sorted = sorted(run_dirs, key=lambda d: d.stat().st_mtime, reverse=True)
-        print(f"Checking most recent checkpoint directories (looking for run: {run_name}):")
         
-        for i, run_dir in enumerate(run_dirs_sorted[:5]):  # Check top 5 most recent
-            run_id = run_dir.name
-            print(f"  {i+1}. Checking run_id: {run_id}")
-            
-            # Look for the offline run directory in wandb/
-            # Pattern: offline-run-TIMESTAMP-RUN_ID
-            if wandb_base.exists():
-                offline_runs = list(wandb_base.glob(f"offline-run-*-{run_id}"))
-                print(f"     Found {len(offline_runs)} offline run dir(s)")
-                
-                if offline_runs:
-                    offline_run_dir = offline_runs[0]
-                    print(f"     Offline dir: {offline_run_dir.name}")
-                    
-                    # Try multiple possible locations for metadata
-                    metadata_paths = [
-                        offline_run_dir / "files" / "wandb-metadata.json",
-                        offline_run_dir / "wandb-metadata.json",
-                    ]
-                    
-                    metadata_file = None
-                    for path in metadata_paths:
-                        if path.exists():
-                            metadata_file = path
-                            print(f"     Found metadata at: {path.relative_to(wandb_base)}")
-                            break
-                    
-                    if metadata_file:
-                        try:
-                            with open(metadata_file, 'r') as f:
-                                metadata = json.load(f)
-                                stored_run_name = metadata.get('name', '')
-                                created_at = metadata.get('startedAt', '')
-                                print(f"     Run name in metadata: {stored_run_name}")
-                                print(f"     Created at: {created_at}")
-                                
-                                if stored_run_name == run_name:
-                                    candidates.append({
-                                        'run_id': run_id,
-                                        'run_name': stored_run_name,
-                                        'checkpoint_dir': run_dir,
-                                        'created_at': created_at
-                                    })
-                                    print(f"     ✓ MATCH FOUND!")
-                        except Exception as e:
-                            print(f"     Error reading metadata: {e}")
-                    else:
-                        print(f"     No metadata file found")
-                else:
-                    print(f"     No offline run directory found for {run_id}")
+        # We need to match this specific (lr, run_idx) pair
+        # The experiment runs in order: (0.4, 0), (0.5, 0), (0.6, 0)
+        # So the most recent 3 directories correspond to these runs in reverse
         
-        # If we found matching runs, use the most recent one
-        if candidates:
-            # Sort by creation time (most recent first)
-            candidates.sort(key=lambda x: x['created_at'], reverse=True)
-            best_match = candidates[0]
+        # Get the learning rates being tested (from config)
+        learning_rates = config.LEARNING_RATES
+        runs_per_lr = config.RUNS_PER_LR
+        
+        # Calculate which run this is overall
+        # Find the index of this lr in the list
+        try:
+            lr_index = learning_rates.index(lr)
+        except ValueError:
+            print(f"LR {lr} not found in config learning rates: {learning_rates}")
+            return None
+        
+        # Calculate the overall run number
+        # (lr_index * runs_per_lr) + run_idx gives us the position
+        overall_run_num = lr_index * runs_per_lr + run_idx
+        
+        # The most recent runs are in reverse order
+        # If there are 3 LRs with 1 run each, the most recent is run 2, then 1, then 0
+        total_runs = len(learning_rates) * runs_per_lr
+        position_from_end = overall_run_num
+        checkpoint_index = (total_runs - 1) - position_from_end
+        
+        print(f"Looking for LR={lr}, run_idx={run_idx}")
+        print(f"  Overall run number: {overall_run_num} out of {total_runs}")
+        print(f"  Should be checkpoint index {checkpoint_index} from most recent")
+        
+        if checkpoint_index < len(run_dirs_sorted):
+            matched_dir = run_dirs_sorted[checkpoint_index]
+            run_id = matched_dir.name
             
-            print(f"\nUsing most recent match: {best_match['run_name']} (ID: {best_match['run_id']})")
-            return _load_logits_from_checkpoint_dir(best_match['checkpoint_dir'], config, X_test, device)
+            # Verify this checkpoint has the expected structure
+            metadata_file = matched_dir / "checkpoint_metadata.json"
+            if metadata_file.exists():
+                print(f"  Matched to run_id: {run_id}")
+                print(f"  Checkpoint dir: {matched_dir}")
+                return _load_logits_from_checkpoint_dir(matched_dir, config, X_test, device)
+            else:
+                print(f"  Found directory {run_id} but no checkpoint_metadata.json")
+                return None
         else:
-            print(f"\nNo matching runs found for {run_name}")
+            print(f"  Not enough recent checkpoints (need index {checkpoint_index}, have {len(run_dirs_sorted)})")
+            return None
             
-    except Exception as e:
+                        except Exception as e:
         print(f"Error searching for checkpoints: {e}")
-        import traceback
-        traceback.print_exc()
+                            import traceback
+                            traceback.print_exc()
     
     return None
 
