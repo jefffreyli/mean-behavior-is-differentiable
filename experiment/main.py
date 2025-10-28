@@ -34,6 +34,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from utils.data import prepare_dataset, get_dataset_presets  # noqa: E402
 from utils.nets import prepare_net, get_model_presets  # noqa: E402
 from utils.wandb_utils import find_closest_checkpoint_wandb, get_checkpoint_dir_for_run  # noqa: E402
+from utils.naming import compose_run_name  # noqa: E402
 # fmt: on
 
 # Check if wandb is available
@@ -234,6 +235,25 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
     Returns:
         Logits array of shape (n_test, n_classes)
     """
+    # Construct the full run name using the same logic as training
+    # Create a mock args object with the necessary attributes
+    class MockArgs:
+        def __init__(self, dataset, model, batch, lr, wandb_name):
+            self.dataset = dataset
+            self.model = model
+            self.batch = batch
+            self.lr = lr
+            self.wandb_name = wandb_name
+    
+    mock_args = MockArgs(
+        dataset=config.DATASET,
+        model=config.MODEL,
+        batch=config.BATCH_SIZE,
+        lr=lr,
+        wandb_name=f"exp_lr{lr}_run{run_idx}"
+    )
+    run_name = compose_run_name(mock_args)
+    
     # First try to find the run using wandb API (online)
     if WANDB_AVAILABLE:
         try:
@@ -243,7 +263,6 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
             project_path = f"{entity}/{project}"
 
             # Search for the run
-            run_name = f"exp_lr{lr}_run{run_idx}"
             runs = api.runs(project_path, filters={
                             "tags": config.WANDB_TAG, "display_name": run_name})
             runs_list = list(runs)
