@@ -57,14 +57,14 @@ class ExperimentConfig:
     # Learning rates to test
     LEARNING_RATES = [0.4, 0.5, 0.6]
 
-    # Number of runs per learning rate (1 for proof of concept)
-    N_RUNS_PER_LR = 1
+    # Number of runs per learning rate (100 for full experiment)
+    N_RUNS_PER_LR = 100
 
     # Training hyperparameters
     DATASET = "cifar10"
     MODEL = "cnn"
     BATCH_SIZE = 128
-    NUM_STEPS = 5
+    NUM_STEPS = 100  # Increased from 5 to 100 for more thorough training
     NUM_DATA = 2048
     CLASSES = [1, 9]
 
@@ -324,10 +324,10 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
             print(f"  Not enough recent checkpoints (need index {checkpoint_index}, have {len(run_dirs_sorted)})")
             return None
             
-    except Exception as e:
+                        except Exception as e:
         print(f"Error searching for checkpoints: {e}")
-        import traceback
-        traceback.print_exc()
+                            import traceback
+                            traceback.print_exc()
     
     return None
 
