@@ -267,21 +267,49 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
     print(f"Directory exists: {offline_runs_dir.exists()}")
     
     if offline_runs_dir.exists():
-        print(f"Contents of wandb directory: {list(offline_runs_dir.iterdir())}")
+        print(f"Searching {len(list(offline_runs_dir.iterdir()))} items in wandb directory")
         # Look for runs with matching name pattern
         for run_dir in offline_runs_dir.iterdir():
-            if run_dir.is_dir():
+            if run_dir.is_dir() and run_dir.name.startswith('offline-run-'):
                 print(f"Checking run directory: {run_dir.name}")
-                if f"exp_lr{lr}_run{run_idx}" in run_dir.name:
-                    print(f"Found offline run directory: {run_dir}")
-                    # Look for checkpoint directory
-                    checkpoint_dir = run_dir / "files" / "wandb_checkpoints"
-                    print(f"Looking for checkpoints in: {checkpoint_dir}")
-                    if checkpoint_dir.exists():
-                        print(f"Found checkpoint directory: {checkpoint_dir}")
-                        return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
-                    else:
-                        print(f"Checkpoint directory not found: {checkpoint_dir}")
+                
+                # Check the wandb-metadata.json file for the run name
+                metadata_file = run_dir / "files" / "wandb-metadata.json"
+                if metadata_file.exists():
+                    try:
+                        with open(metadata_file, 'r') as f:
+                            metadata = json.load(f)
+                            stored_run_name = metadata.get('name', '')
+                            print(f"  Run name in metadata: {stored_run_name}")
+                            
+                            if stored_run_name == run_name:
+                                print(f"Found matching offline run: {run_dir}")
+                                
+                                # Extract the actual wandb run ID from metadata
+                                actual_run_id = metadata.get('id', None)
+                                if not actual_run_id:
+                                    # Fallback: try to extract from directory name
+                                    actual_run_id = run_dir.name.split('-')[-1]
+                                
+                                print(f"  Wandb run ID: {actual_run_id}")
+                                
+                                # Look for checkpoint directory using the actual run ID
+                                # Checkpoints are stored in $WANDB_DIR/wandb_checkpoints/<run_id>/
+                                checkpoint_locations = [
+                                    wandb_dir / "wandb_checkpoints" / actual_run_id,
+                                    Path(os.environ.get("WANDB_DIR", ".")) / "wandb_checkpoints" / actual_run_id,
+                                    run_dir / "files" / "wandb_checkpoints",
+                                ]
+                                
+                                for checkpoint_dir in checkpoint_locations:
+                                    print(f"  Looking for checkpoints in: {checkpoint_dir}")
+                                    if checkpoint_dir.exists():
+                                        print(f"  Found checkpoint directory: {checkpoint_dir}")
+                                        return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
+                                
+                                print(f"  No checkpoints found in any location for run ID: {actual_run_id}")
+                    except Exception as e:
+                        print(f"  Error reading metadata: {e}")
     else:
         print(f"Wandb directory does not exist: {offline_runs_dir}")
     
