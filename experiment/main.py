@@ -136,13 +136,11 @@ def run_single_training(lr: float, run_idx: int, config: ExperimentConfig) -> Di
     print(f"Seed: {seed}")
     print(f"{'='*60}")
 
-    # Run training
-    result = subprocess.run(cmd, cwd=config.EXPERIMENT_DIR.parent, capture_output=True, text=True)
+    # Run training (show output to see checkpoint messages)
+    result = subprocess.run(cmd, cwd=config.EXPERIMENT_DIR.parent)
 
     if result.returncode != 0:
         print(f"Warning: Training failed with return code {result.returncode}")
-        print(f"STDOUT: {result.stdout}")
-        print(f"STDERR: {result.stderr}")
         return {"lr": lr, "run_idx": run_idx, "seed": seed, "success": False}
 
     return {"lr": lr, "run_idx": run_idx, "seed": seed, "success": True}
