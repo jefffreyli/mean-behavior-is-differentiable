@@ -255,86 +255,44 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
     )
     run_name = compose_run_name(mock_args)
     
-    # First try to find the run using wandb API (online)
+    print(f"Searching for run: {run_name}")
+    
+    # Use the same approach as sharpness plots - query by tag and find matching LR
     if WANDB_AVAILABLE:
         try:
-            api = wandb.Api()
-            entity = os.getenv("WANDB_ENTITY", api.default_entity)
-            project = os.getenv("WANDB_PROJECT")
-            project_path = f"{entity}/{project}"
-
-            # Search for the run
-            runs = api.runs(project_path, filters={
-                            "tags": config.WANDB_TAG, "display_name": run_name})
-            runs_list = list(runs)
-
-            if runs_list:
-                run = runs_list[0]
-                run_id = run.id
-                checkpoint_dir = get_checkpoint_dir_for_run(run_id)
-                if checkpoint_dir and checkpoint_dir.exists():
-                    return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
-        except Exception as e:
-            pass  # Fall back to offline search
-
-    # Fallback: try to find offline runs in the wandb directory
-    wandb_dir = Path(os.environ.get("WANDB_DIR", "."))
-    offline_runs_dir = wandb_dir / "wandb"
-    
-    print(f"Searching for run: {run_name}")
-    print(f"Wandb directory: {wandb_dir}")
-    print(f"Offline runs directory: {offline_runs_dir}")
-    print(f"Offline runs directory exists: {offline_runs_dir.exists()}")
-    
-    if offline_runs_dir.exists():
-        # Look for runs with matching name pattern
-        all_dirs = list(offline_runs_dir.iterdir())
-        print(f"Found {len(all_dirs)} items in offline runs directory")
-        
-        offline_run_dirs = [d for d in all_dirs if d.is_dir() and d.name.startswith('offline-run-')]
-        print(f"Found {len(offline_run_dirs)} offline-run directories")
-        
-        for run_dir in offline_run_dirs:
-            print(f"\nChecking directory: {run_dir.name}")
-            # Check the wandb-metadata.json file for the run name
-            metadata_file = run_dir / "files" / "wandb-metadata.json"
-            print(f"  Metadata file path: {metadata_file}")
-            print(f"  Metadata file exists: {metadata_file.exists()}")
+            from visualization.vis_utils import RunCollection
             
-            if metadata_file.exists():
-                try:
-                    with open(metadata_file, 'r') as f:
-                        metadata = json.load(f)
-                        stored_run_name = metadata.get('name', '')
-                        print(f"  Stored run name: {stored_run_name}")
-                        print(f"  Looking for: {run_name}")
-                        print(f"  Match: {stored_run_name == run_name}")
-                        
-                        if stored_run_name == run_name:
-                            # Extract the actual wandb run ID from metadata
-                            actual_run_id = metadata.get('id', None)
-                            if not actual_run_id:
-                                # Fallback: try to extract from directory name
-                                actual_run_id = run_dir.name.split('-')[-1]
-                            
-                            print(f"  Run ID: {actual_run_id}")
-                            
-                            # Look for checkpoint directory using the actual run ID
-                            # Checkpoints are stored in $WANDB_DIR/wandb_checkpoints/<run_id>/
-                            checkpoint_locations = [
-                                wandb_dir / "wandb_checkpoints" / actual_run_id,
-                                Path(os.environ.get("WANDB_DIR", ".")) / "wandb_checkpoints" / actual_run_id,
-                                run_dir / "files" / "wandb_checkpoints",
-                            ]
-                            
-                            for checkpoint_dir in checkpoint_locations:
-                                print(f"  Checking checkpoint location: {checkpoint_dir}")
-                                print(f"    Exists: {checkpoint_dir.exists()}")
-                                if checkpoint_dir.exists():
-                                    print(f"  Found checkpoints! Loading...")
-                                    return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
-                except Exception as e:
-                    print(f"  Error reading metadata: {e}")
+            # Load all runs with the experiment tag
+            collection = RunCollection.from_tag(
+                tag=config.WANDB_TAG,
+                load_dataframes=False  # Don't need dataframes for checkpoint loading
+            )
+            
+            print(f"Found {len(collection.runs)} runs with tag {config.WANDB_TAG}")
+            
+            # Find the run with matching LR
+            for run in collection.runs:
+                if abs(run.lr - lr) < 0.001:  # Float comparison with tolerance
+                    print(f"Found matching run: {run.name} (ID: {run.id}, LR: {run.lr})")
+                    
+                    # Look for checkpoints using the run ID
+                    wandb_dir = Path(os.environ.get("WANDB_DIR", "."))
+                    checkpoint_locations = [
+                        wandb_dir / "wandb_checkpoints" / run.id,
+                        Path(os.environ.get("RESULTS", ".")) / "wandb_checkpoints" / run.id,
+                    ]
+                    
+                    for checkpoint_dir in checkpoint_locations:
+                        print(f"  Checking: {checkpoint_dir}")
+                        if checkpoint_dir.exists():
+                            print(f"  Found checkpoints!")
+                            return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
+                    
+                    print(f"  Warning: Run found but no checkpoints at any location")
+        except Exception as e:
+            print(f"Error using RunCollection: {e}")
+            import traceback
+            traceback.print_exc()
     
     print(f"Warning: No run found for {run_name}")
     return None
