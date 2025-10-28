@@ -276,23 +276,45 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
         # to get the run name, then match it
         candidates = []
         
-        for run_dir in run_dirs:
+        # Debug: Check the most recent checkpoint directories
+        run_dirs_sorted = sorted(run_dirs, key=lambda d: d.stat().st_mtime, reverse=True)
+        print(f"Checking most recent checkpoint directories (looking for run: {run_name}):")
+        
+        for i, run_dir in enumerate(run_dirs_sorted[:5]):  # Check top 5 most recent
             run_id = run_dir.name
+            print(f"  {i+1}. Checking run_id: {run_id}")
             
             # Look for the offline run directory in wandb/
             # Pattern: offline-run-TIMESTAMP-RUN_ID
             if wandb_base.exists():
                 offline_runs = list(wandb_base.glob(f"offline-run-*-{run_id}"))
+                print(f"     Found {len(offline_runs)} offline run dir(s)")
+                
                 if offline_runs:
                     offline_run_dir = offline_runs[0]
-                    metadata_file = offline_run_dir / "files" / "wandb-metadata.json"
+                    print(f"     Offline dir: {offline_run_dir.name}")
                     
-                    if metadata_file.exists():
+                    # Try multiple possible locations for metadata
+                    metadata_paths = [
+                        offline_run_dir / "files" / "wandb-metadata.json",
+                        offline_run_dir / "wandb-metadata.json",
+                    ]
+                    
+                    metadata_file = None
+                    for path in metadata_paths:
+                        if path.exists():
+                            metadata_file = path
+                            print(f"     Found metadata at: {path.relative_to(wandb_base)}")
+                            break
+                    
+                    if metadata_file:
                         try:
                             with open(metadata_file, 'r') as f:
                                 metadata = json.load(f)
                                 stored_run_name = metadata.get('name', '')
                                 created_at = metadata.get('startedAt', '')
+                                print(f"     Run name in metadata: {stored_run_name}")
+                                print(f"     Created at: {created_at}")
                                 
                                 if stored_run_name == run_name:
                                     candidates.append({
@@ -301,9 +323,13 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
                                         'checkpoint_dir': run_dir,
                                         'created_at': created_at
                                     })
-                                    print(f"  Found matching run: {stored_run_name} (ID: {run_id}, created: {created_at})")
+                                    print(f"     ✓ MATCH FOUND!")
                         except Exception as e:
-                            print(f"  Error reading metadata for {run_id}: {e}")
+                            print(f"     Error reading metadata: {e}")
+                    else:
+                        print(f"     No metadata file found")
+                else:
+                    print(f"     No offline run directory found for {run_id}")
         
         # If we found matching runs, use the most recent one
         if candidates:
@@ -311,10 +337,10 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
             candidates.sort(key=lambda x: x['created_at'], reverse=True)
             best_match = candidates[0]
             
-            print(f"Using most recent match: {best_match['run_name']} (ID: {best_match['run_id']})")
+            print(f"\nUsing most recent match: {best_match['run_name']} (ID: {best_match['run_id']})")
             return _load_logits_from_checkpoint_dir(best_match['checkpoint_dir'], config, X_test, device)
         else:
-            print(f"No matching runs found for {run_name}")
+            print(f"\nNo matching runs found for {run_name}")
             
     except Exception as e:
         print(f"Error searching for checkpoints: {e}")
