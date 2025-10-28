@@ -255,55 +255,72 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
     
     print(f"Searching for run: {run_name}")
     
-    # Use the same approach as sharpness plots - query by tag and find matching LR
-    if WANDB_AVAILABLE:
-        try:
-            from visualization.vis_utils import RunCollection
-            
-            # Load all runs with the experiment tag
-            collection = RunCollection.from_tag(
-                tag=config.WANDB_TAG,
-                load_dataframes=False  # Don't need dataframes for checkpoint loading
-            )
-            
-            print(f"Found {len(collection.runs)} runs with tag {config.WANDB_TAG}")
-            
-            # Sort by creation time to get the most recent runs first
-            sorted_runs = sorted(collection.runs, 
-                               key=lambda r: r.metadata.get('created_at', ''), 
-                               reverse=True)
-            
-            # Debug: Print runs sorted by time
-            print(f"Looking for run name: {run_name}")
-            print("Recent runs (sorted by creation time):")
-            for i, run in enumerate(sorted_runs[:6]):  # Show top 6
-                print(f"  {i+1}. Run: {run.run_name}, ID: {run.run_id}, Created: {run.metadata.get('created_at', 'unknown')}")
-            
-            # Find the run with matching name (since LR is not saved in config)
-            for run in sorted_runs:
-                if run.run_name == run_name:
-                    print(f"Found matching run: {run.run_name} (ID: {run.run_id})")
-                    
-                    # Look for checkpoints using the run ID
-                    wandb_dir = Path(os.environ.get("WANDB_DIR", "."))
-                    checkpoint_locations = [
-                        wandb_dir / "wandb_checkpoints" / run.run_id,
-                        Path(os.environ.get("RESULTS", ".")) / "wandb_checkpoints" / run.run_id,
-                    ]
-                    
-                    for checkpoint_dir in checkpoint_locations:
-                        print(f"  Checking: {checkpoint_dir}")
-                        if checkpoint_dir.exists():
-                            print(f"  Found checkpoints!")
-                            return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
-                    
-                    print(f"  Warning: Run found but no checkpoints at any location")
-        except Exception as e:
-            print(f"Error using RunCollection: {e}")
-            import traceback
-            traceback.print_exc()
+    # In offline mode, wandb.Api() won't find recent runs until they're synced.
+    # Instead, look directly at the filesystem for checkpoint directories.
+    results_dir = Path(os.environ.get("RESULTS", "."))
+    checkpoint_base = results_dir / "wandb_checkpoints"
+    wandb_base = results_dir / "wandb"
     
-    print(f"Warning: No run found for {run_name}")
+    print(f"Looking in checkpoint directory: {checkpoint_base}")
+    
+    if not checkpoint_base.exists():
+        print(f"Checkpoint directory does not exist: {checkpoint_base}")
+        return None
+    
+    # Find all run IDs (checkpoint subdirectories)
+    try:
+        run_dirs = [d for d in checkpoint_base.iterdir() if d.is_dir()]
+        print(f"Found {len(run_dirs)} checkpoint directories")
+        
+        # For each run directory, try to find the corresponding offline wandb run
+        # to get the run name, then match it
+        candidates = []
+        
+        for run_dir in run_dirs:
+            run_id = run_dir.name
+            
+            # Look for the offline run directory in wandb/
+            # Pattern: offline-run-TIMESTAMP-RUN_ID
+            if wandb_base.exists():
+                offline_runs = list(wandb_base.glob(f"offline-run-*-{run_id}"))
+                if offline_runs:
+                    offline_run_dir = offline_runs[0]
+                    metadata_file = offline_run_dir / "files" / "wandb-metadata.json"
+                    
+                    if metadata_file.exists():
+                        try:
+                            with open(metadata_file, 'r') as f:
+                                metadata = json.load(f)
+                                stored_run_name = metadata.get('name', '')
+                                created_at = metadata.get('startedAt', '')
+                                
+                                if stored_run_name == run_name:
+                                    candidates.append({
+                                        'run_id': run_id,
+                                        'run_name': stored_run_name,
+                                        'checkpoint_dir': run_dir,
+                                        'created_at': created_at
+                                    })
+                                    print(f"  Found matching run: {stored_run_name} (ID: {run_id}, created: {created_at})")
+                        except Exception as e:
+                            print(f"  Error reading metadata for {run_id}: {e}")
+        
+        # If we found matching runs, use the most recent one
+        if candidates:
+            # Sort by creation time (most recent first)
+            candidates.sort(key=lambda x: x['created_at'], reverse=True)
+            best_match = candidates[0]
+            
+            print(f"Using most recent match: {best_match['run_name']} (ID: {best_match['run_id']})")
+            return _load_logits_from_checkpoint_dir(best_match['checkpoint_dir'], config, X_test, device)
+        else:
+            print(f"No matching runs found for {run_name}")
+            
+    except Exception as e:
+        print(f"Error searching for checkpoints: {e}")
+        import traceback
+        traceback.print_exc()
+    
     return None
 
 
