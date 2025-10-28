@@ -270,6 +270,11 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
             
             print(f"Found {len(collection.runs)} runs with tag {config.WANDB_TAG}")
             
+            # Debug: Print all runs and their LRs
+            print(f"Looking for LR: {lr}")
+            for run in collection.runs:
+                print(f"  Run: {run.name}, LR: {run.lr}, ID: {run.id}")
+            
             # Find the run with matching LR
             for run in collection.runs:
                 if abs(run.lr - lr) < 0.001:  # Float comparison with tolerance
