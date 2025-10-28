@@ -128,6 +128,7 @@ def run_single_training(lr: float, run_idx: int, config: ExperimentConfig) -> Di
         "--lambdamax",
         "--wandb-tag", config.WANDB_TAG,
         "--wandb-name", f"exp_lr{lr}_run{run_idx}",
+        "--checkpoint-every-n-steps", "1",  # Save checkpoint every step for logit collection
     ]
 
     print(f"\n{'='*60}")
@@ -266,7 +267,6 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
             runs = api.runs(project_path, filters={
                             "tags": config.WANDB_TAG, "display_name": run_name})
             runs_list = list(runs)
-            print(f"Found {len(runs_list)} runs for {run_name}")
 
             if runs_list:
                 run = runs_list[0]
@@ -275,42 +275,31 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
                 if checkpoint_dir and checkpoint_dir.exists():
                     return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
         except Exception as e:
-            print(f"Warning: Error querying wandb for {run_name}: {e}")
+            pass  # Fall back to offline search
 
     # Fallback: try to find offline runs in the wandb directory
-    print(f"Trying to find offline run for {run_name}")
     wandb_dir = Path(os.environ.get("WANDB_DIR", "."))
     offline_runs_dir = wandb_dir / "wandb"
     
-    print(f"Looking in wandb directory: {offline_runs_dir}")
-    print(f"Directory exists: {offline_runs_dir.exists()}")
-    
     if offline_runs_dir.exists():
-        print(f"Searching {len(list(offline_runs_dir.iterdir()))} items in wandb directory")
         # Look for runs with matching name pattern
         for run_dir in offline_runs_dir.iterdir():
             if run_dir.is_dir() and run_dir.name.startswith('offline-run-'):
-                print(f"Checking run directory: {run_dir.name}")
-                
                 # Check the wandb-metadata.json file for the run name
                 metadata_file = run_dir / "files" / "wandb-metadata.json"
+                
                 if metadata_file.exists():
                     try:
                         with open(metadata_file, 'r') as f:
                             metadata = json.load(f)
                             stored_run_name = metadata.get('name', '')
-                            print(f"  Run name in metadata: {stored_run_name}")
                             
                             if stored_run_name == run_name:
-                                print(f"Found matching offline run: {run_dir}")
-                                
                                 # Extract the actual wandb run ID from metadata
                                 actual_run_id = metadata.get('id', None)
                                 if not actual_run_id:
                                     # Fallback: try to extract from directory name
                                     actual_run_id = run_dir.name.split('-')[-1]
-                                
-                                print(f"  Wandb run ID: {actual_run_id}")
                                 
                                 # Look for checkpoint directory using the actual run ID
                                 # Checkpoints are stored in $WANDB_DIR/wandb_checkpoints/<run_id>/
@@ -321,16 +310,10 @@ def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
                                 ]
                                 
                                 for checkpoint_dir in checkpoint_locations:
-                                    print(f"  Looking for checkpoints in: {checkpoint_dir}")
                                     if checkpoint_dir.exists():
-                                        print(f"  Found checkpoint directory: {checkpoint_dir}")
                                         return _load_logits_from_checkpoint_dir(checkpoint_dir, config, X_test, device)
-                                
-                                print(f"  No checkpoints found in any location for run ID: {actual_run_id}")
                     except Exception as e:
                         print(f"  Error reading metadata: {e}")
-    else:
-        print(f"Wandb directory does not exist: {offline_runs_dir}")
     
     print(f"Warning: No run found for {run_name}")
     return None
