@@ -30,8 +30,8 @@ def run_single_training(lr: float, run_idx: int, config: ExperimentConfig) -> Di
     # Use different seeds for each run
     seed = 1000 + int(lr * 100) + run_idx
 
-    # Build checkpoint steps string (comma-separated list)
-    checkpoint_steps_str = ",".join(str(s) for s in config.CHECKPOINT_STEPS)
+    # Calculate checkpoint every 100 steps for saving logits
+    checkpoint_every = 100
 
     # Build command
     cmd = [
@@ -49,7 +49,7 @@ def run_single_training(lr: float, run_idx: int, config: ExperimentConfig) -> Di
         "--lambdamax",        # Track λ_max through time
         "--wandb-tag", config.WANDB_TAG,
         "--wandb-name", f"exp_lr{lr}_run{run_idx}",
-        "--checkpoint-steps", checkpoint_steps_str,  # Save at specific steps
+        "--checkpoint-every", str(checkpoint_every),  # Save every 100 steps
     ]
 
     print(f"\n{'='*60}")
