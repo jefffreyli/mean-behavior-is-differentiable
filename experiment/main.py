@@ -89,7 +89,7 @@ def main():
     print("\n" + "="*60)
     print("EXPERIMENT COMPLETE")
     print("="*60)
-    print(f"Plots saved to: {config.PLOTS_DIR}")
+    print(f"Plots and results saved to: {config.RESULTS_DIR}")
 
 
 if __name__ == "__main__":

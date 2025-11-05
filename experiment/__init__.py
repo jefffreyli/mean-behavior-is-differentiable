@@ -13,7 +13,8 @@ from .logit_collection import (
     collect_logits_for_run,
     collect_all_logits,
     aggregate_logits_for_step,
-    save_aggregated_logits
+    save_aggregated_logits,
+    save_logits_to_dataframe
 )
 from .visualization import (
     generate_correlation_plot,
@@ -30,6 +31,7 @@ __all__ = [
     'collect_all_logits',
     'aggregate_logits_for_step',
     'save_aggregated_logits',
+    'save_logits_to_dataframe',
     'generate_correlation_plot',
     'generate_sharpness_plots',
 ]

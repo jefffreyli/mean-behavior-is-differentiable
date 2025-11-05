@@ -5,6 +5,7 @@ Logit collection functions for the Keller Jordan experiment.
 import torch.nn as nn
 import torch
 import numpy as np
+import pandas as pd
 import os
 import sys
 import json
@@ -12,9 +13,9 @@ from pathlib import Path
 from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from utils.naming import compose_run_name
-from utils.nets import prepare_net, get_model_presets
 from utils.data import prepare_dataset, get_dataset_presets
+from utils.nets import prepare_net, get_model_presets
+from utils.naming import compose_run_name
 
 # Try relative import first (when used as package), fall back to direct import
 try:
@@ -307,9 +308,101 @@ def aggregate_logits_for_step(config: ExperimentConfig, lr: float, step: int) ->
     return aggregated
 
 
+def save_logits_to_dataframe(config: ExperimentConfig):
+    """
+    Save all logits to a pandas DataFrame for easy viewing.
+
+    Creates a DataFrame with columns: lr, step, run_idx, test_sample_idx, class_idx, logit_value
+    Also saves a summary CSV per (lr, step) combination.
+    """
+    print("\n" + "="*60)
+    print("SAVING LOGITS TO DATAFRAME")
+    print("="*60)
+
+    all_logits_data = []
+
+    for step in config.CHECKPOINT_STEPS:
+        for lr in config.LEARNING_RATES:
+            print(f"\nProcessing LR={lr}, step={step}")
+            logits_dir = config.get_logits_dir(lr, step)
+
+            for run_idx in range(config.N_RUNS_PER_LR):
+                logit_file = logits_dir / f"run_{run_idx}.npy"
+                if logit_file.exists():
+                    # Shape: (n_test_samples, n_classes)
+                    logits = np.load(logit_file)
+
+                    # Flatten and add metadata
+                    n_samples, n_classes = logits.shape
+                    for sample_idx in range(n_samples):
+                        for class_idx in range(n_classes):
+                            all_logits_data.append({
+                                'lr': lr,
+                                'step': step,
+                                'run_idx': run_idx,
+                                'test_sample_idx': sample_idx,
+                                'class_idx': class_idx,
+                                'logit_value': logits[sample_idx, class_idx]
+                            })
+                else:
+                    print(f"  Warning: Missing file for run {run_idx}")
+
+    # Create DataFrame
+    df = pd.DataFrame(all_logits_data)
+
+    if len(df) == 0:
+        print("\nWarning: No logits data found. DataFrame will be empty.")
+        return None
+
+    # Ensure results directory exists
+    config.RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Save full DataFrame
+    # Try parquet first (more efficient), fallback to CSV if parquet not available
+    parquet_file = config.DATA_DIR / "logits_dataframe.parquet"
+    csv_file = config.RESULTS_DIR / "logits_dataframe.csv.gz"
+
+    try:
+        df.to_parquet(parquet_file, index=False)
+        print(f"\nSaved full DataFrame (parquet) to: {parquet_file}")
+        print(f"Shape: {df.shape}")
+        print(f"Columns: {df.columns.tolist()}")
+    except Exception as e:
+        print(f"\nWarning: Could not save as parquet ({e}), using CSV instead")
+        print(f"Shape: {df.shape}")
+        print(f"Columns: {df.columns.tolist()}")
+
+    # Save CSV to results directory (compressed, may be large)
+    df.to_csv(csv_file, index=False, compression='gzip')
+    print(f"Saved CSV to results directory: {csv_file}")
+
+    # Save summary statistics per (lr, step)
+    summary_data = []
+    for (lr, step), group in df.groupby(['lr', 'step']):
+        summary_data.append({
+            'lr': lr,
+            'step': step,
+            'n_runs': group['run_idx'].nunique(),
+            'n_samples': group['test_sample_idx'].nunique(),
+            'n_classes': group['class_idx'].nunique(),
+            'mean_logit': group['logit_value'].mean(),
+            'std_logit': group['logit_value'].std(),
+            'min_logit': group['logit_value'].min(),
+            'max_logit': group['logit_value'].max()
+        })
+
+    summary_df = pd.DataFrame(summary_data)
+    summary_file = config.RESULTS_DIR / "logits_summary.csv"
+    summary_df.to_csv(summary_file, index=False)
+    print(f"Saved summary to: {summary_file}")
+
+    return df
+
+
 def save_aggregated_logits(config: ExperimentConfig):
     """
     Create and save aggregated logit arrays for each (LR, step) combination.
+    Also saves logits to DataFrame format.
 
     Creates arrays of shape (100 runs, 10000 test samples, 10 classes) for each
     learning rate and checkpoint step.
@@ -334,3 +427,6 @@ def save_aggregated_logits(config: ExperimentConfig):
     print("\n" + "="*60)
     print("AGGREGATION COMPLETE")
     print("="*60)
+
+    # Also save to DataFrame
+    save_logits_to_dataframe(config)

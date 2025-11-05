@@ -109,13 +109,10 @@ def generate_correlation_plot(config: ExperimentConfig, step: int = None):
     ax.legend()
     ax.grid(True, alpha=0.3)
 
-    # Save plot
-    output_file = config.PLOTS_DIR / f"correlation_plot_step_{step}.png"
+    # Save plot to results directory
+    config.RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    output_file = config.RESULTS_DIR / f"correlation_plot_step_{step}.png"
     print(f"Saving plot to: {output_file}")
-    print(f"Plots directory exists: {config.PLOTS_DIR.exists()}")
-    if not config.PLOTS_DIR.exists():
-        print(f"Creating plots directory: {config.PLOTS_DIR}")
-        config.PLOTS_DIR.mkdir(parents=True, exist_ok=True)
 
     plt.tight_layout()
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
@@ -228,13 +225,10 @@ def generate_sharpness_plots(config: ExperimentConfig):
 
     plt.tight_layout()
 
-    # Save plot
-    output_file = config.PLOTS_DIR / "sharpness_comparison.png"
+    # Save plot to results directory
+    config.RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    output_file = config.RESULTS_DIR / "sharpness_comparison.png"
     print(f"Saving sharpness plot to: {output_file}")
-    print(f"Plots directory exists: {config.PLOTS_DIR.exists()}")
-    if not config.PLOTS_DIR.exists():
-        print(f"Creating plots directory: {config.PLOTS_DIR}")
-        config.PLOTS_DIR.mkdir(parents=True, exist_ok=True)
 
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     print(f"Sharpness plot saved successfully to: {output_file}")

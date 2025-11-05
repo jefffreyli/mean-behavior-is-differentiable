@@ -13,7 +13,7 @@ class ExperimentConfig:
     LEARNING_RATES = [0.4, 0.5, 0.6]
 
     # Number of runs per learning rate (100 for full experiment)
-    N_RUNS_PER_LR = 100
+    N_RUNS_PER_LR = 2
 
     # Training hyperparameters
     DATASET = "cifar10"
@@ -33,6 +33,7 @@ class ExperimentConfig:
     EXPERIMENT_DIR = Path(__file__).parent
     DATA_DIR = EXPERIMENT_DIR / "data"
     PLOTS_DIR = EXPERIMENT_DIR / "plots"
+    RESULTS_DIR = Path(os.environ.get("RESULTS", "."))
     CHECKPOINT_DIR = Path(os.environ.get(
         "WANDB_DIR", ".")) / "wandb_checkpoints"
 
