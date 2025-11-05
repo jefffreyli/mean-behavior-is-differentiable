@@ -64,9 +64,9 @@ class ExperimentConfig:
     DATASET = "cifar10"
     MODEL = "cnn"
     BATCH_SIZE = 128
-    NUM_STEPS = 100  # Increased from 5 to 100 for more thorough training
-    NUM_DATA = 2048
-    CLASSES = [1, 9]
+    NUM_STEPS = 10000
+    NUM_DATA = 50000
+    CLASSES = [1, 10]
 
     # Experiment tracking
     WANDB_TAG = "keller-jordan-exp"
