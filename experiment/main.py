@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Keller Jordan Experiment: Mean Behavior is Differentiable in the Learning Rate
 
@@ -6,629 +5,41 @@ This script reproduces the experiment showing that mean neural network behavior
 is differentiable with respect to learning rate, while also tracking batch
 sharpness and lambda_max during training.
 
+Experiment Configuration:
+- 100 networks trained on 10k CIFAR-10 samples for 100k steps
+- 3 learning rates: [0.4, 0.5, 0.6]
+- Batch sharpness and λ_max tracked at each step
+- Checkpoints saved at: 0, 100, 1k, 5k, 10k, 50k, 100k steps
+- Logits collected at each checkpoint (shape: 100 runs × 10000 test samples × 10 classes)
+
 Usage:
-    python experiment/main.py --mode train    # Run training
-    python experiment/main.py --mode analyze  # Generate plots
-    python experiment/main.py --mode all      # Run both
+    python experiment/main.py --mode train      # Run training (100 networks × 3 LRs)
+    python experiment/main.py --mode collect    # Collect logits from checkpoints
+    python experiment/main.py --mode aggregate  # Aggregate logits into single arrays
+    python experiment/main.py --mode analyze    # Generate plots
+    python experiment/main.py --mode all        # Run complete pipeline
 """
 
-import os
-import sys
-import subprocess
 import argparse
-import json
-from pathlib import Path
 import numpy as np
 import torch
-import torch.nn as nn
-from typing import List, Dict, Tuple
-import matplotlib.pyplot as plt
-from scipy import stats
-import pandas as pd
 
-# Add parent directory to path to import from utils
-sys.path.insert(0, str(Path(__file__).parent.parent))
+from config import ExperimentConfig
+from training import run_all_training
+from logit_collection import collect_all_logits, save_aggregated_logits
+from visualization import generate_correlation_plot, generate_sharpness_plots
 
-# Import from utils (after sys.path is modified)
-# fmt: off
-from utils.data import prepare_dataset, get_dataset_presets  # noqa: E402
-from utils.nets import prepare_net, get_model_presets  # noqa: E402
-from utils.wandb_utils import find_closest_checkpoint_wandb, get_checkpoint_dir_for_run  # noqa: E402
-from utils.naming import compose_run_name  # noqa: E402
-# fmt: on
-
-# Check if wandb is available
-try:
-    import wandb
-    from visualization.vis_utils import RunCollection
-    WANDB_AVAILABLE = True
-except ImportError:
-    WANDB_AVAILABLE = False
-    print("Warning: wandb not available. Visualization features will be limited.")
-
-
-# ============================================================================
-# Configuration
-# ============================================================================
-
-class ExperimentConfig:
-    """Configuration for the Keller Jordan experiment."""
-
-    # Learning rates to test
-    LEARNING_RATES = [0.4, 0.5, 0.6]
-
-    # Number of runs per learning rate (100 for full experiment)
-    N_RUNS_PER_LR = 100
-
-    # Training hyperparameters
-    DATASET = "cifar10"
-    MODEL = "cnn"
-    BATCH_SIZE = 128
-    NUM_STEPS = 10000
-    NUM_DATA = 50000
-    CLASSES = [1, 10]
-
-    # Experiment tracking
-    WANDB_TAG = "keller-jordan-exp"
-
-    # Paths
-    EXPERIMENT_DIR = Path(__file__).parent
-    DATA_DIR = EXPERIMENT_DIR / "data"
-    PLOTS_DIR = EXPERIMENT_DIR / "plots"
-    CHECKPOINT_DIR = Path(os.environ.get(
-        "WANDB_DIR", ".")) / "wandb_checkpoints"
-
-    @classmethod
-    def get_logits_dir(cls, lr: float) -> Path:
-        """Get directory for storing logits for a given learning rate."""
-        lr_str = f"lr{int(lr*10):02d}"
-        return cls.DATA_DIR / f"logits_{lr_str}"
-
-    @classmethod
-    def setup_directories(cls):
-        """Create necessary directories."""
-        cls.DATA_DIR.mkdir(exist_ok=True, parents=True)
-        cls.PLOTS_DIR.mkdir(exist_ok=True, parents=True)
-        for lr in cls.LEARNING_RATES:
-            cls.get_logits_dir(lr).mkdir(exist_ok=True, parents=True)
-
-
-# ============================================================================
-# Training
-# ============================================================================
-
-def run_single_training(lr: float, run_idx: int, config: ExperimentConfig) -> Dict:
-    """
-    Launch a single training run.
-
-    Args:
-        lr: Learning rate
-        run_idx: Run index (0-9)
-        config: Experiment configuration
-
-    Returns:
-        Dictionary with run information
-    """
-    # Use different seeds for each run
-    seed = 1000 + int(lr * 100) + run_idx
-
-    # Build command
-    cmd = [
-        sys.executable, "training.py",
-        "--dataset", config.DATASET,
-        "--model", config.MODEL,
-        "--batch", str(config.BATCH_SIZE),
-        "--lr", str(lr),
-        "--steps", str(config.NUM_STEPS),
-        "--num-data", str(config.NUM_DATA),
-        "--classes", str(config.CLASSES[0]), str(config.CLASSES[1]),
-        "--init-seed", str(seed),
-        "--dataset-seed", str(seed),
-        "--batch-sharpness",
-        "--lambdamax",
-        "--wandb-tag", config.WANDB_TAG,
-        "--wandb-name", f"exp_lr{lr}_run{run_idx}",
-        "--checkpoint-every", "1",  # Save checkpoint every step for logit collection
-    ]
-
-    print(f"\n{'='*60}")
-    print(f"Training: LR={lr}, Run={run_idx}/{config.N_RUNS_PER_LR-1}")
-    print(f"Seed: {seed}")
-    print(f"{'='*60}")
-
-    # Run training (show output to see checkpoint messages)
-    result = subprocess.run(cmd, cwd=config.EXPERIMENT_DIR.parent)
-
-    if result.returncode != 0:
-        print(f"Warning: Training failed with return code {result.returncode}")
-        return {"lr": lr, "run_idx": run_idx, "seed": seed, "success": False}
-
-    return {"lr": lr, "run_idx": run_idx, "seed": seed, "success": True}
-
-
-def run_all_training(config: ExperimentConfig):
-    """Run all training experiments."""
-    print("\n" + "="*60)
-    print("STARTING KELLER JORDAN EXPERIMENT")
-    print("="*60)
-    print(f"Learning rates: {config.LEARNING_RATES}")
-    print(f"Runs per LR: {config.N_RUNS_PER_LR}")
-    print(f"Total runs: {len(config.LEARNING_RATES) * config.N_RUNS_PER_LR}")
-    print("="*60 + "\n")
-
-    config.setup_directories()
-
-    results = []
-    for lr in config.LEARNING_RATES:
-        for run_idx in range(config.N_RUNS_PER_LR):
-            result = run_single_training(lr, run_idx, config)
-            results.append(result)
-
-    # Save results
-    results_file = config.DATA_DIR / "training_results.json"
-    with open(results_file, 'w') as f:
-        json.dump(results, f, indent=2)
-
-    print("\n" + "="*60)
-    print("TRAINING COMPLETE")
-    print("="*60)
-    successful = sum(1 for r in results if r.get("success", False))
-    print(f"Successful runs: {successful}/{len(results)}")
-    print(f"Results saved to: {results_file}")
-
-
-# ============================================================================
-# Logit Collection
-# ============================================================================
-
-def load_model_from_checkpoint(checkpoint_path: Path, config: ExperimentConfig, device: str = "cpu") -> nn.Module:
-    """Load a trained model from checkpoint."""
-    # Get model architecture
-    model_presets = get_model_presets()
-    dataset_presets = get_dataset_presets()
-
-    params = model_presets[config.MODEL]['params'].copy()
-    params['input_dim'] = dataset_presets[config.DATASET]['input_dim']
-    params['output_dim'] = dataset_presets[config.DATASET]['output_dim']
-
-    model = prepare_net(
-        model_type=model_presets[config.MODEL]['type'],
-        params=params
-    )
-
-    # Load checkpoint
-    checkpoint = torch.load(checkpoint_path, map_location=device)
-    model.load_state_dict(checkpoint['model_state_dict'])
-    model.eval()
-    model.to(device)
-
-    return model
-
-
-def extract_logits(model: nn.Module, X_test: torch.Tensor, batch_size: int = 500, device: str = "cpu") -> np.ndarray:
-    """Extract logits from a model on test data."""
-    model.eval()
-    logits_list = []
-
-    with torch.no_grad():
-        for i in range(0, len(X_test), batch_size):
-            batch = X_test[i:i+batch_size].to(device)
-            outputs = model(batch)
-            logits_list.append(outputs.cpu().numpy())
-
-    return np.concatenate(logits_list, axis=0)
-
-
-def collect_logits_for_run(lr: float, run_idx: int, config: ExperimentConfig,
-                           X_test: torch.Tensor, device: str = "cpu") -> np.ndarray:
-    """
-    Collect logits for a single run.
-
-    Args:
-        lr: Learning rate
-        run_idx: Run index
-        config: Experiment configuration
-        X_test: Test data
-        device: Device to use
-
-    Returns:
-        Logits array of shape (n_test, n_classes)
-    """
-    # Construct the full run name using the same logic as training
-    # Create a mock args object with the necessary attributes
-    class MockArgs:
-        def __init__(self, dataset, model, batch, lr, wandb_name):
-            self.dataset = dataset
-            self.model = model
-            self.batch = batch
-            self.lr = lr
-            self.wandb_name = wandb_name
-    
-    mock_args = MockArgs(
-        dataset=config.DATASET,
-        model=config.MODEL,
-        batch=config.BATCH_SIZE,
-        lr=lr,
-        wandb_name=f"exp_lr{lr}_run{run_idx}"
-    )
-    run_name = compose_run_name(mock_args)
-    
-    print(f"Searching for run: {run_name}")
-    
-    # In offline mode, wandb metadata files don't exist until runs are synced.
-    # Instead, match runs by timestamp and order of execution.
-    # The experiment runs sequentially: LR 0.4, then 0.5, then 0.6
-    # So we can match the 3 most recent checkpoints to the LRs in reverse order.
-    
-    results_dir = Path(os.environ.get("RESULTS", "."))
-    checkpoint_base = results_dir / "wandb_checkpoints"
-    
-    print(f"Looking in checkpoint directory: {checkpoint_base}")
-    
-    if not checkpoint_base.exists():
-        print(f"Checkpoint directory does not exist: {checkpoint_base}")
-        return None
-    
-    # Find all run IDs (checkpoint subdirectories)
-    try:
-        run_dirs = [d for d in checkpoint_base.iterdir() if d.is_dir()]
-        print(f"Found {len(run_dirs)} checkpoint directories")
-        
-        # Sort by modification time (most recent first)
-        run_dirs_sorted = sorted(run_dirs, key=lambda d: d.stat().st_mtime, reverse=True)
-        
-        # We need to match this specific (lr, run_idx) pair
-        # The experiment runs in order: (0.4, 0), (0.5, 0), (0.6, 0)
-        # So the most recent 3 directories correspond to these runs in reverse
-        
-        # Get the learning rates being tested (from config)
-        learning_rates = config.LEARNING_RATES
-        runs_per_lr = config.N_RUNS_PER_LR
-        
-        # Calculate which run this is overall
-        # Find the index of this lr in the list
-        try:
-            lr_index = learning_rates.index(lr)
-        except ValueError:
-            print(f"LR {lr} not found in config learning rates: {learning_rates}")
-            return None
-        
-        # Calculate the overall run number
-        # (lr_index * runs_per_lr) + run_idx gives us the position
-        overall_run_num = lr_index * runs_per_lr + run_idx
-        
-        # The most recent runs are in reverse order
-        # If there are 3 LRs with 1 run each, the most recent is run 2, then 1, then 0
-        total_runs = len(learning_rates) * runs_per_lr
-        position_from_end = overall_run_num
-        checkpoint_index = (total_runs - 1) - position_from_end
-        
-        print(f"Looking for LR={lr}, run_idx={run_idx}")
-        print(f"  Overall run number: {overall_run_num} out of {total_runs}")
-        print(f"  Should be checkpoint index {checkpoint_index} from most recent")
-        
-        if checkpoint_index < len(run_dirs_sorted):
-            matched_dir = run_dirs_sorted[checkpoint_index]
-            run_id = matched_dir.name
-            
-            # Verify this checkpoint has the expected structure
-            metadata_file = matched_dir / "checkpoint_metadata.json"
-            if metadata_file.exists():
-                print(f"  Matched to run_id: {run_id}")
-                print(f"  Checkpoint dir: {matched_dir}")
-                return _load_logits_from_checkpoint_dir(matched_dir, config, X_test, device)
-            else:
-                print(f"  Found directory {run_id} but no checkpoint_metadata.json")
-                return None
-        else:
-            print(f"  Not enough recent checkpoints (need index {checkpoint_index}, have {len(run_dirs_sorted)})")
-            return None
-            
-    except Exception as e:
-        print(f"Error searching for checkpoints: {e}")
-        import traceback
-        traceback.print_exc()
-    
-    return None
-
-
-def _load_logits_from_checkpoint_dir(checkpoint_dir: Path, config: ExperimentConfig, 
-                                   X_test: torch.Tensor, device: str) -> np.ndarray:
-    """Helper function to load logits from a checkpoint directory."""
-    # Find the final checkpoint
-    metadata_file = checkpoint_dir / "checkpoint_metadata.json"
-    if not metadata_file.exists():
-        print(f"Warning: No metadata file in {checkpoint_dir}")
-        return None
-
-    with open(metadata_file, 'r') as f:
-        metadata = json.load(f)
-
-    checkpoints = metadata.get('checkpoints', [])
-    if not checkpoints:
-        print(f"Warning: No checkpoints in metadata in {checkpoint_dir}")
-        return None
-
-    # Get the last checkpoint
-    final_checkpoint = max(checkpoints, key=lambda x: x['step'])
-    checkpoint_path = Path(final_checkpoint['path'])
-
-    print(f"Loading checkpoint from {checkpoint_path}")
-
-    # Load model and extract logits
-    model = load_model_from_checkpoint(checkpoint_path, config, device)
-    logits = extract_logits(model, X_test, device=device)
-
-    return logits
-
-
-def collect_all_logits(config: ExperimentConfig, device: str = "cpu"):
-    """Collect logits from all trained models."""
-    print("\n" + "="*60)
-    print("COLLECTING LOGITS")
-    print("="*60)
-
-    # Load test dataset
-    DATASET_FOLDER = Path(os.environ.get('DATASETS', './datasets'))
-    data = prepare_dataset(
-        config.DATASET,
-        DATASET_FOLDER,
-        config.NUM_DATA,
-        config.CLASSES,
-        dataset_seed=888,
-        loss_type='mse'
-    )
-    X_train, Y_train, X_test, Y_test = data
-
-    print(f"Test set size: {len(X_test)}")
-
-    for lr in config.LEARNING_RATES:
-        print(f"\nProcessing LR={lr}")
-        logits_dir = config.get_logits_dir(lr)
-
-        for run_idx in range(config.N_RUNS_PER_LR):
-            output_file = logits_dir / f"run_{run_idx}.npy"
-
-            if output_file.exists():
-                print(f"  Run {run_idx}: Already exists, skipping")
-                continue
-
-            print(f"  Run {run_idx}: Collecting logits...")
-            logits = collect_logits_for_run(
-                lr, run_idx, config, X_test, device)
-
-            if logits is not None:
-                np.save(output_file, logits)
-                print(f"  Run {run_idx}: Saved to {output_file}")
-            else:
-                print(f"  Run {run_idx}: Failed to collect logits")
-
-    print("\n" + "="*60)
-    print("LOGIT COLLECTION COMPLETE")
-    print("="*60)
-
-
-# ============================================================================
-# Visualization
-# ============================================================================
-
-def generate_correlation_plot(config: ExperimentConfig):
-    """Generate the correlation plot showing linear relationship between LR deltas."""
-    print("\n" + "="*60)
-    print("GENERATING CORRELATION PLOT")
-    print("="*60)
-
-    # Load all logits
-    logits_by_lr = {}
-    for lr in config.LEARNING_RATES:
-        logits_dir = config.get_logits_dir(lr)
-        logits_list = []
-
-        for run_idx in range(config.N_RUNS_PER_LR):
-            logit_file = logits_dir / f"run_{run_idx}.npy"
-            if logit_file.exists():
-                logits = np.load(logit_file)
-                logits_list.append(logits)
-            else:
-                print(f"Warning: Missing logits for LR={lr}, run={run_idx}")
-
-        if logits_list:
-            # Stack to shape (n_runs, n_test, n_classes)
-            logits_by_lr[lr] = np.stack(logits_list, axis=0)
-            print(
-                f"LR={lr}: Loaded {len(logits_list)} runs, shape={logits_by_lr[lr].shape}")
-
-    if len(logits_by_lr) < 3:
-        print("Error: Need logits for all 3 learning rates")
-        return
-
-    # Compute mean logits
-    out4 = logits_by_lr[0.4].mean(axis=0)  # Shape: (n_test, n_classes)
-    out5 = logits_by_lr[0.5].mean(axis=0)
-    out6 = logits_by_lr[0.6].mean(axis=0)
-
-    print(f"Mean logit shapes: {out4.shape}")
-
-    # Compute deltas and flatten
-    xx = (out5 - out4).flatten()
-    yy = (out6 - out4).flatten()
-
-    # Compute correlation
-    correlation = np.corrcoef(xx, yy)[0, 1]
-    r_squared = correlation ** 2
-
-    # Compute the ratio (should be ~2)
-    slope, intercept, _, _, _ = stats.linregress(xx, yy)
-
-    print(f"Correlation: {correlation:.4f}")
-    print(f"R²: {r_squared:.4f}")
-    print(f"Slope: {slope:.4f} (expected ~2.0)")
-
-    # Create plot
-    fig, ax = plt.subplots(figsize=(8, 6))
-
-    # Scatter plot with small points
-    ax.scatter(xx, yy, s=1, alpha=0.5, color='blue')
-
-    # Add regression line
-    x_line = np.array([xx.min(), xx.max()])
-    y_line = slope * x_line + intercept
-    ax.plot(x_line, y_line, 'r-', linewidth=2,
-            label=f'y = {slope:.2f}x + {intercept:.2f}')
-
-    # Labels and title
-    ax.set_xlabel('(out_0.5 - out_0.4).flatten()', fontsize=12)
-    ax.set_ylabel('(out_0.6 - out_0.4).flatten()', fontsize=12)
-    ax.set_title(f'Mean Behavior is Differentiable in Learning Rate\nR² = {r_squared:.4f}, N = {config.N_RUNS_PER_LR}',
-                 fontsize=14)
-    ax.legend()
-    ax.grid(True, alpha=0.3)
-
-    # Save plot
-    output_file = config.PLOTS_DIR / "correlation_plot.png"
-    print(f"Saving plot to: {output_file}")
-    print(f"Plots directory exists: {config.PLOTS_DIR.exists()}")
-    if not config.PLOTS_DIR.exists():
-        print(f"Creating plots directory: {config.PLOTS_DIR}")
-        config.PLOTS_DIR.mkdir(parents=True, exist_ok=True)
-    
-    plt.tight_layout()
-    plt.savefig(output_file, dpi=300, bbox_inches='tight')
-    print(f"Plot saved successfully to: {output_file}")
-    plt.close()
-
-
-def generate_sharpness_plots(config: ExperimentConfig):
-    """Generate batch sharpness and lambda_max comparison plots."""
-    if not WANDB_AVAILABLE:
-        print("Error: wandb required for sharpness plots")
-        return
-
-    print("\n" + "="*60)
-    print("GENERATING SHARPNESS PLOTS")
-    print("="*60)
-
-    # Load runs from wandb
-    collection = RunCollection.from_tag(
-        tag=config.WANDB_TAG,
-        load_dataframes=True
-    )
-
-    if len(collection.runs) == 0:
-        print("Error: No runs found with tag:", config.WANDB_TAG)
-        return
-
-    print(f"Loaded {len(collection.runs)} runs")
-
-    # Organize runs by learning rate
-    runs_by_lr = {lr: [] for lr in config.LEARNING_RATES}
-    for run in collection.runs:
-        lr = run.lr
-        if lr in runs_by_lr:
-            runs_by_lr[lr].append(run)
-
-    # Create plots
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
-
-    colors = {'0.4': '#1f77b4', '0.5': '#ff7f0e', '0.6': '#2ca02c'}
-
-    for lr in config.LEARNING_RATES:
-        lr_str = str(lr)
-        runs = runs_by_lr[lr]
-
-        if not runs:
-            continue
-
-        print(f"\nLR={lr}: {len(runs)} runs")
-
-        # Collect batch sharpness data
-        bs_data_list = []
-        lmax_data_list = []
-
-        for run in runs:
-            if run.has_metric('batch_sharpn'):
-                bs_data = run.get_metric_data('batch_sharpn')
-                if not bs_data.empty:
-                    bs_data_list.append(
-                        bs_data.set_index('_step')['batch_sharpn'])
-
-            if run.has_metric('lambda_max'):
-                lmax_data = run.get_metric_data('lambda_max')
-                if not lmax_data.empty:
-                    lmax_data_list.append(
-                        lmax_data.set_index('_step')['lambda_max'])
-
-        # Plot batch sharpness
-        if bs_data_list:
-            # Combine all runs
-            bs_df = pd.concat(bs_data_list, axis=1)
-            bs_mean = bs_df.mean(axis=1)
-            bs_std = bs_df.std(axis=1)
-
-            steps = bs_mean.index
-            ax1.plot(steps, bs_mean,
-                     label=f'LR={lr}', color=colors[lr_str], linewidth=2)
-            ax1.fill_between(steps, bs_mean - bs_std, bs_mean + bs_std,
-                             alpha=0.2, color=colors[lr_str])
-
-            # Add 2/eta reference line
-            ax1.axhline(y=2/lr, color=colors[lr_str],
-                        linestyle='--', alpha=0.5, linewidth=1)
-
-        # Plot lambda_max
-        if lmax_data_list:
-            lmax_df = pd.concat(lmax_data_list, axis=1)
-            lmax_mean = lmax_df.mean(axis=1)
-            lmax_std = lmax_df.std(axis=1)
-
-            steps = lmax_mean.index
-            ax2.plot(steps, lmax_mean,
-                     label=f'LR={lr}', color=colors[lr_str], linewidth=2)
-            ax2.fill_between(steps, lmax_mean - lmax_std, lmax_mean + lmax_std,
-                             alpha=0.2, color=colors[lr_str])
-
-    # Format batch sharpness plot
-    ax1.set_xlabel('Training Steps', fontsize=12)
-    ax1.set_ylabel('Batch Sharpness', fontsize=12)
-    ax1.set_title('Batch Sharpness vs Learning Rate', fontsize=14)
-    ax1.legend()
-    ax1.grid(True, alpha=0.3)
-
-    # Format lambda_max plot
-    ax2.set_xlabel('Training Steps', fontsize=12)
-    ax2.set_ylabel('Lambda Max', fontsize=12)
-    ax2.set_title('Lambda Max vs Learning Rate', fontsize=14)
-    ax2.legend()
-    ax2.grid(True, alpha=0.3)
-
-    plt.tight_layout()
-
-    # Save plot
-    output_file = config.PLOTS_DIR / "sharpness_comparison.png"
-    print(f"Saving sharpness plot to: {output_file}")
-    print(f"Plots directory exists: {config.PLOTS_DIR.exists()}")
-    if not config.PLOTS_DIR.exists():
-        print(f"Creating plots directory: {config.PLOTS_DIR}")
-        config.PLOTS_DIR.mkdir(parents=True, exist_ok=True)
-    
-    plt.savefig(output_file, dpi=300, bbox_inches='tight')
-    print(f"Sharpness plot saved successfully to: {output_file}")
-    plt.close()
-
-
-# ============================================================================
-# Main
-# ============================================================================
 
 def main():
+    """Main entry point for the Keller Jordan experiment."""
     parser = argparse.ArgumentParser(
         description="Keller Jordan Experiment: Mean Behavior Differentiability"
     )
     parser.add_argument(
         "--mode",
-        choices=["train", "collect", "analyze", "all"],
+        choices=["train", "collect", "aggregate", "analyze", "all"],
         default="all",
-        help="Experiment mode: train, collect logits, analyze, or all"
+        help="Experiment mode: train, collect logits, aggregate, analyze, or all"
     )
     parser.add_argument(
         "--device",
@@ -653,12 +64,12 @@ def main():
             for lr in config.LEARNING_RATES:
                 logits_dir = config.get_logits_dir(lr)
                 logits_dir.mkdir(exist_ok=True, parents=True)
-                
+
                 # Create dummy logits (1000 test samples, 2 classes)
                 dummy_logits = np.random.randn(1000, 2)
                 np.save(logits_dir / "run_0.npy", dummy_logits)
                 print(f"Created dummy logits for LR={lr}")
-            
+
             generate_correlation_plot(config)
             print("Local mode test completed")
     else:
@@ -667,6 +78,9 @@ def main():
 
         if args.mode in ["collect", "all"]:
             collect_all_logits(config, device=args.device)
+
+        if args.mode in ["aggregate", "all"]:
+            save_aggregated_logits(config)
 
         if args.mode in ["analyze", "all"]:
             generate_correlation_plot(config)
