@@ -18,7 +18,7 @@ class ExperimentConfig:
     # Training hyperparameters
     DATASET = "cifar10"
     MODEL = "cnn"
-    BATCH_SIZE = 256
+    BATCH_SIZE = 128  # Reduced from 256 to reduce memory usage for eigenvalue computation
     NUM_STEPS = 100000  # 100k steps for full experiment
     NUM_DATA = 10000    # 10k CIFAR-10 samples
     CLASSES = [1, 10]   # Binary classification (classes 1 and 10)

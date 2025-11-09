@@ -50,6 +50,9 @@ export NUM_GPUS=${SLURM_GPUS_ON_NODE:-4}
 echo "NUM_GPUS (from SLURM): $NUM_GPUS"
 echo "CUDA_VISIBLE_DEVICES (from SLURM): ${CUDA_VISIBLE_DEVICES:-not set}"
 
+# Set PyTorch memory management to reduce fragmentation
+export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128
+
 # Run the experiment pipeline
 echo "[1/4] Training..."
 python experiment/main.py --mode train --device cuda

@@ -181,9 +181,11 @@ class MeasurementRunner:
             lmax_max_size = 4096
             if str(self.device).startswith('cuda'):
                 total_memory = torch.cuda.get_device_properties(0).total_memory
+                # More aggressive memory limits for smaller GPUs (RTX 2080 has ~8GB)
                 if total_memory < 20 * 1024**3:
                     if isinstance(self.net, CNN):
-                        lmax_max_size = 2048 + 512
+                        # Reduced from 2560 to 2048 for RTX 2080 (8GB)
+                        lmax_max_size = 2048
                     if isinstance(self.net, ResNet):
                         lmax_max_size = 512
 

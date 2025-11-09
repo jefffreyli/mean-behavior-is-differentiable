@@ -57,12 +57,14 @@ def run_single_training(lr: float, run_idx: int, config: ExperimentConfig, gpu_i
     ]
 
     # Set CUDA_VISIBLE_DEVICES to use a specific GPU
-    # gpu_id can be either a GPU index (int) or a GPU device ID (str like "0" or "2")
+    # gpu_id is the physical GPU device ID from the allocated GPUs
     env = os.environ.copy()
     if gpu_id is not None:
         # Use only the specified GPU by setting CUDA_VISIBLE_DEVICES to that GPU ID
         # This makes the GPU appear as device 0 in the subprocess
         env["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
+        # Add memory management environment variables
+        env["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
         print(f"\n{'='*60}")
         print(
             f"Training: LR={lr}, Run={run_idx}/{config.N_RUNS_PER_LR-1} on GPU {gpu_id}")
@@ -137,58 +139,82 @@ def run_all_training(config: ExperimentConfig):
             allocated_gpu_ids = [str(i) for i in range(num_gpus)]
             print(f"Could not detect GPUs, using NUM_GPUS={num_gpus}")
 
-    # Use minimum of available GPUs and total runs
-    num_workers = min(num_gpus, total_runs)
-    print(f"Using {num_workers} GPU(s) for parallel training (out of {num_gpus} available, {total_runs} total runs)")
+    # We'll process runs in batches, using all available GPUs
+    print(f"Available GPUs: {num_gpus}, Total runs: {total_runs}")
+    print(f"Will process runs in batches of {num_gpus} (one per GPU)")
     print("="*60 + "\n")
 
     config.setup_directories()
 
     # Prepare all training tasks
     # Each task gets assigned a GPU device ID from the allocated GPUs
-    # We use round-robin assignment across the allocated GPU IDs
+    # We use round-robin assignment, but will process in batches to avoid memory conflicts
     tasks = []
     for lr in config.LEARNING_RATES:
         for run_idx in range(config.N_RUNS_PER_LR):
             # Assign GPU in round-robin fashion using actual GPU device IDs
-            gpu_idx = len(tasks) % num_workers
+            # This ensures tasks are distributed across GPUs
+            gpu_idx = len(tasks) % num_gpus
             gpu_device_id = allocated_gpu_ids[gpu_idx] if allocated_gpu_ids else str(
                 gpu_idx)
             tasks.append((lr, run_idx, config, gpu_device_id))
 
-    # Run training in parallel
-    results = []
-    if num_workers > 1:
-        print(
-            f"Running {total_runs} training runs in parallel on {num_workers} GPU(s)...")
-        with ProcessPoolExecutor(max_workers=num_workers) as executor:
-            # Submit all tasks
-            future_to_task = {
-                executor.submit(_run_training_wrapper, task): task
-                for task in tasks
-            }
+    # Print task assignment for debugging
+    print(f"Task-GPU assignments:")
+    for i, (lr, run_idx, _, gpu_id) in enumerate(tasks):
+        print(f"  Task {i+1}: LR={lr}, Run={run_idx} -> GPU {gpu_id}")
+    print()
 
-            # Collect results as they complete
-            for future in as_completed(future_to_task):
-                task = future_to_task[future]
-                try:
-                    result = future.result()
-                    results.append(result)
-                    lr, run_idx, _, gpu_id = task
-                    status = "✓" if result.get("success", False) else "✗"
-                    print(
-                        f"{status} Completed: LR={lr}, Run={run_idx}, GPU={gpu_id}")
-                except Exception as exc:
-                    lr, run_idx, _, gpu_id = task
-                    print(
-                        f"✗ Exception for LR={lr}, Run={run_idx}, GPU={gpu_id}: {exc}")
-                    results.append({
-                        "lr": lr,
-                        "run_idx": run_idx,
-                        "gpu_id": gpu_id,
-                        "success": False,
-                        "error": str(exc)
-                    })
+    # Run training in parallel, but process in batches to avoid memory issues
+    # Process exactly num_gpus runs at a time to ensure one process per GPU
+    results = []
+    if num_gpus > 1 and total_runs > 1:
+        print(
+            f"Running {total_runs} training runs in batches of {num_gpus} (one per GPU)...")
+
+        # Process in batches to ensure one process per GPU at a time
+        for batch_start in range(0, len(tasks), num_gpus):
+            batch_end = min(batch_start + num_gpus, len(tasks))
+            batch = tasks[batch_start:batch_end]
+            batch_num = (batch_start // num_gpus) + 1
+            total_batches = (len(tasks) + num_gpus - 1) // num_gpus
+
+            print(
+                f"\n--- Processing batch {batch_num}/{total_batches} ({len(batch)} runs) ---")
+
+            with ProcessPoolExecutor(max_workers=len(batch)) as executor:
+                # Submit batch tasks
+                future_to_task = {
+                    executor.submit(_run_training_wrapper, task): task
+                    for task in batch
+                }
+
+                # Collect results as they complete
+                for future in as_completed(future_to_task):
+                    task = future_to_task[future]
+                    try:
+                        result = future.result()
+                        results.append(result)
+                        lr, run_idx, _, gpu_id = task
+                        status = "✓" if result.get("success", False) else "✗"
+                        print(
+                            f"{status} Completed: LR={lr}, Run={run_idx}, GPU={gpu_id}")
+                    except Exception as exc:
+                        lr, run_idx, _, gpu_id = task
+                        print(
+                            f"✗ Exception for LR={lr}, Run={run_idx}, GPU={gpu_id}: {exc}")
+                        results.append({
+                            "lr": lr,
+                            "run_idx": run_idx,
+                            "gpu_id": gpu_id,
+                            "success": False,
+                            "error": str(exc)
+                        })
+
+            # Small delay between batches to let GPUs clean up
+            if batch_end < len(tasks):
+                import time
+                time.sleep(2)
     else:
         # Sequential execution (single GPU or no parallelization)
         print(f"Running {total_runs} training runs sequentially...")
@@ -210,7 +236,7 @@ def run_all_training(config: ExperimentConfig):
     print(f"Results saved to: {results_file}")
 
     # Print GPU utilization summary
-    if num_workers > 1:
+    if num_gpus > 1:
         gpu_usage = {}
         for r in results:
             gpu_id = r.get("gpu_id", "unknown")
