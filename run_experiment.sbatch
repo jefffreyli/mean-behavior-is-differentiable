@@ -1,12 +1,13 @@
 #!/bin/bash
 #SBATCH -p normal
 #SBATCH -t 48:00:00
-#SBATCH --gres=gpu:1
-#SBATCH -c 8
-#SBATCH --mem=32G
+#SBATCH --gres=gpu:4
+#SBATCH -c 32
+#SBATCH --mem=128G
 #SBATCH -J mean-behavior-exp
 
-# Experiment: 100 networks × 3 LRs × 100k steps
+# Experiment: 100 runs (networks) × 3 LRs × 100k steps
+# Using 4 GPUs to parallelize training runs
 # Don't specify -o and -e, let Slurm use default (slurm-<jobid>.out)
 
 set -euo pipefail
@@ -35,10 +36,19 @@ export WANDB_DIR="$RESULTS"
 
 # Print info
 echo "Job: $SLURM_JOB_ID on $(hostname) at $(date)"
-echo "Config: 100 nets × 3 LRs × 100k steps | Checkpoints: 0,100,1k,5k,10k,50k,100k"
+echo "Config: Multiple nets × 3 LRs × 100k steps | Checkpoints: 0,100,1k,5k,10k,50k,100k"
+echo "GPUs allocated: $SLURM_GPUS_ON_NODE"
+echo "CPU cores: $SLURM_CPUS_ON_NODE"
 
-# Test GPU
-nvidia-smi || echo "GPU check failed"
+# Test GPUs
+echo "Available GPUs:"
+nvidia-smi --list-gpus || echo "GPU check failed"
+echo "CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-not set}"
+
+# Export number of GPUs for parallel training
+export NUM_GPUS=${SLURM_GPUS_ON_NODE:-4}
+echo "NUM_GPUS (from SLURM): $NUM_GPUS"
+echo "CUDA_VISIBLE_DEVICES (from SLURM): ${CUDA_VISIBLE_DEVICES:-not set}"
 
 # Run the experiment pipeline
 echo "[1/4] Training..."
