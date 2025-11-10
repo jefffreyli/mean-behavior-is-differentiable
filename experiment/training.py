@@ -51,6 +51,7 @@ def run_single_training(lr: float, run_idx: int, config: ExperimentConfig, gpu_i
         "--dataset-seed", str(seed),
         "--batch-sharpness",  # Track batch sharpness at each step
         "--lambdamax",        # Track λ_max through time
+        "--rare-measure",     # Reduce measurement frequency (2-4x speedup)
         "--wandb-tag", config.WANDB_TAG,
         "--wandb-name", f"exp_lr{lr}_run{run_idx}",
         "--checkpoint-every", str(checkpoint_every),  # Save every 100 steps
@@ -165,56 +166,48 @@ def run_all_training(config: ExperimentConfig):
         print(f"  Task {i+1}: LR={lr}, Run={run_idx} -> GPU {gpu_id}")
     print()
 
-    # Run training in parallel, but process in batches to avoid memory issues
-    # Process exactly num_gpus runs at a time to ensure one process per GPU
+    # Run training in parallel with true parallelism (queue-based, not blocking batches)
+    # Start new runs as GPUs become available to maximize GPU utilization
     results = []
     if num_gpus > 1 and total_runs > 1:
         print(
-            f"Running {total_runs} training runs in batches of {num_gpus} (one per GPU)...")
+            f"Running {total_runs} training runs in parallel on {num_gpus} GPU(s) (queue-based, non-blocking)...")
 
-        # Process in batches to ensure one process per GPU at a time
-        for batch_start in range(0, len(tasks), num_gpus):
-            batch_end = min(batch_start + num_gpus, len(tasks))
-            batch = tasks[batch_start:batch_end]
-            batch_num = (batch_start // num_gpus) + 1
-            total_batches = (len(tasks) + num_gpus - 1) // num_gpus
+        # Use queue-based approach: submit all tasks and process as GPUs become available
+        # This avoids blocking on slow runs and maximizes GPU utilization
+        with ProcessPoolExecutor(max_workers=num_gpus) as executor:
+            # Submit all tasks immediately
+            future_to_task = {
+                executor.submit(_run_training_wrapper, task): task
+                for task in tasks
+            }
 
-            print(
-                f"\n--- Processing batch {batch_num}/{total_batches} ({len(batch)} runs) ---")
+            print(f"Submitted {len(tasks)} tasks to {num_gpus} GPU(s)")
+            print("Processing as GPUs become available...\n")
 
-            with ProcessPoolExecutor(max_workers=len(batch)) as executor:
-                # Submit batch tasks
-                future_to_task = {
-                    executor.submit(_run_training_wrapper, task): task
-                    for task in batch
-                }
-
-                # Collect results as they complete
-                for future in as_completed(future_to_task):
-                    task = future_to_task[future]
-                    try:
-                        result = future.result()
-                        results.append(result)
-                        lr, run_idx, _, gpu_id = task
-                        status = "✓" if result.get("success", False) else "✗"
-                        print(
-                            f"{status} Completed: LR={lr}, Run={run_idx}, GPU={gpu_id}")
-                    except Exception as exc:
-                        lr, run_idx, _, gpu_id = task
-                        print(
-                            f"✗ Exception for LR={lr}, Run={run_idx}, GPU={gpu_id}: {exc}")
-                        results.append({
-                            "lr": lr,
-                            "run_idx": run_idx,
-                            "gpu_id": gpu_id,
-                            "success": False,
-                            "error": str(exc)
-                        })
-
-            # Small delay between batches to let GPUs clean up
-            if batch_end < len(tasks):
-                import time
-                time.sleep(2)
+            # Collect results as they complete (in order of completion, not submission)
+            completed_count = 0
+            for future in as_completed(future_to_task):
+                task = future_to_task[future]
+                completed_count += 1
+                try:
+                    result = future.result()
+                    results.append(result)
+                    lr, run_idx, _, gpu_id = task
+                    status = "✓" if result.get("success", False) else "✗"
+                    print(
+                        f"{status} [{completed_count}/{total_runs}] Completed: LR={lr}, Run={run_idx}, GPU={gpu_id}")
+                except Exception as exc:
+                    lr, run_idx, _, gpu_id = task
+                    print(
+                        f"✗ [{completed_count}/{total_runs}] Exception for LR={lr}, Run={run_idx}, GPU={gpu_id}: {exc}")
+                    results.append({
+                        "lr": lr,
+                        "run_idx": run_idx,
+                        "gpu_id": gpu_id,
+                        "success": False,
+                        "error": str(exc)
+                    })
     else:
         # Sequential execution (single GPU or no parallelization)
         print(f"Running {total_runs} training runs sequentially...")
