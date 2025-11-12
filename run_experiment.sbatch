@@ -53,6 +53,28 @@ echo "CUDA_VISIBLE_DEVICES (from SLURM): ${CUDA_VISIBLE_DEVICES:-not set}"
 # Set PyTorch memory management to reduce fragmentation
 export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128
 
+# Clean state: Remove previous logits, aggregated data, and plots
+echo "Cleaning previous experiment outputs for a clean state..."
+
+# Remove logits directories (individual and aggregated)
+if [ -d "experiment/data" ]; then
+    echo "  Removing logits directories..."
+    find experiment/data -type d -name "logits_*" -exec rm -rf {} + 2>/dev/null || true
+    rm -f experiment/data/logits_dataframe.parquet
+fi
+
+# Remove aggregated data files
+echo "  Removing aggregated data files..."
+rm -f "$RESULTS/logits_dataframe.csv.gz"
+rm -f "$RESULTS/logits_summary.csv"
+
+# Remove plot files
+echo "  Removing previous plots..."
+find "$RESULTS" -name "correlation_plot_step_*.png" -delete 2>/dev/null || true
+rm -f "$RESULTS/sharpness_comparison.png"
+
+echo "Clean state ready. Starting experiment..."
+
 # Run the experiment pipeline
 echo "[1/4] Training..."
 python experiment/main.py --mode train --device cuda
