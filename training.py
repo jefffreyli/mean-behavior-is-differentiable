@@ -153,8 +153,8 @@ class MeasurementRunner:
                     self.Y,
                     self.loss_fn,
                     batch_size=self.batch_size,
-                    n_estimates=1000,
-                    min_estimates=20,
+                    n_estimates=5,  # Reduced to 5 samples per snapshot for speed
+                    min_estimates=5,  # Minimum matches n_estimates
                     eps=0.005,
                 )
         # ----- Instantaneous step sharpness (current-batch Rayleigh quotient) -----
@@ -203,11 +203,13 @@ class MeasurementRunner:
             loss = self.loss_fn(preds, Y_subset)
 
             if self.eigenvector_cache is not None:
-                max_iterations = 100 if not self.use_power_iteration else 1000
-                tolerance = 0.005 if self.num_eigenvalues < 6 else 0.03
+                # Reduced iterations for snapshot-based measurements (faster convergence at snapshots)
+                max_iterations = 30 if not self.use_power_iteration else 300
+                # Slightly relaxed tolerance for speed
+                tolerance = 0.01 if self.num_eigenvalues < 6 else 0.05
                 if self.precise_plots:
-                    max_iterations = 300 if not self.use_power_iteration else 3000
-                    tolerance = 0.001 if self.num_eigenvalues < 6 else 0.01
+                    max_iterations = 50 if not self.use_power_iteration else 500
+                    tolerance = 0.005 if self.num_eigenvalues < 6 else 0.03
 
                 eigenvalues, eigenvectors = compute_eigenvalues(
                     loss,
@@ -232,12 +234,13 @@ class MeasurementRunner:
                     )
                     lmax_value = eigenvalues[0]
             else:
+                # Reduced iterations for snapshot-based measurements
                 eigenvalues = compute_eigenvalues(
                     loss,
                     self.net,
                     k=self.num_eigenvalues,
-                    max_iterations=200,
-                    reltol=0.03,
+                    max_iterations=30,  # Reduced from 200 for snapshot-based measurements
+                    reltol=0.05,  # Slightly relaxed tolerance for speed
                     use_power_iteration=self.use_power_iteration,
                 )
                 if self.num_eigenvalues == 1:

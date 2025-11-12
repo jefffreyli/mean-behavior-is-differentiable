@@ -80,10 +80,22 @@ def main():
             collect_all_logits(config, device=args.device)
 
         if args.mode in ["aggregate", "all"]:
-            save_aggregated_logits(config)
+            logits_df = save_aggregated_logits(config)
+            if logits_df is not None:
+                print(
+                    f"\nLogits DataFrame created with shape: {logits_df.shape}")
+                print(
+                    f"Logits summary saved to: {config.RESULTS_DIR / 'logits_summary.csv'}")
 
         if args.mode in ["analyze", "all"]:
-            generate_correlation_plot(config)
+            # Generate correlation plots for all snapshot steps
+            print("\n" + "="*60)
+            print("GENERATING CORRELATION PLOTS FOR ALL SNAPSHOTS")
+            print("="*60)
+            for step in config.CHECKPOINT_STEPS:
+                generate_correlation_plot(config, step=step)
+
+            # Generate sharpness plots (batch sharpness and lambda max)
             generate_sharpness_plots(config)
 
     print("\n" + "="*60)

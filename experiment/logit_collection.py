@@ -2,6 +2,9 @@
 Logit collection functions for the Keller Jordan experiment.
 """
 
+from utils.data import prepare_dataset, get_dataset_presets
+from utils.nets import prepare_net, get_model_presets
+from utils.naming import compose_run_name
 import torch.nn as nn
 import torch
 import numpy as np
@@ -12,10 +15,9 @@ import json
 from pathlib import Path
 from typing import Optional
 
+# Add parent directory to path before importing utils
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from utils.data import prepare_dataset, get_dataset_presets
-from utils.nets import prepare_net, get_model_presets
-from utils.naming import compose_run_name
+
 
 # Try relative import first (when used as package), fall back to direct import
 try:
@@ -428,5 +430,6 @@ def save_aggregated_logits(config: ExperimentConfig):
     print("AGGREGATION COMPLETE")
     print("="*60)
 
-    # Also save to DataFrame
-    save_logits_to_dataframe(config)
+    # Also save to DataFrame and return summary
+    logits_df = save_logits_to_dataframe(config)
+    return logits_df

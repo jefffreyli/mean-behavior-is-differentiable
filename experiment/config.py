@@ -9,22 +9,14 @@ from pathlib import Path
 class ExperimentConfig:
     """Configuration for the Keller Jordan experiment."""
 
-    # Learning rates to test
     LEARNING_RATES = [0.4, 0.5, 0.6]
-
-    # Number of runs per learning rate (100 for full experiment)
     N_RUNS_PER_LR = 2
-
-    # Training hyperparameters
     DATASET = "cifar10"
     MODEL = "cnn"
-
-    BATCH_SIZE = 256
+    BATCH_SIZE = 128
     NUM_STEPS = 1000
-    NUM_DATA = 10000    # 10k CIFAR-10 samples
+    NUM_DATA = 10000
     CLASSES = [1, 10]
-
-    # Checkpoint schedule: initialization and key milestones
     CHECKPOINT_STEPS = [0, 100, 1000, 5000, 10000, 50000, 100000]
 
     # Experiment tracking

@@ -28,18 +28,18 @@ class MeasurementContext:
 class FrequencyCalculator:
     """
     Configurable frequency calculator for training measurements.
-    
+
     Each measurement type has a rule function that takes a MeasurementContext
     and returns True if the measurement should be performed at this step.
     """
-    
+
     def __init__(self):
         self.rules: Dict[str, Callable[[MeasurementContext], bool]] = {}
         self._setup_default_rules()
-    
+
     def _setup_default_rules(self):
         """Setup default frequency rules matching current behavior."""
-        
+
         def _rare_scale(ctx: MeasurementContext, freq: int, heavy: bool = False) -> int:
             """Increase measurement frequency interval under rare-measure regime.
 
@@ -51,34 +51,17 @@ class FrequencyCalculator:
                 scale = 4 if heavy else 2
                 return max(1, int(freq * scale))
             return freq
-        
+
         def full_batch_lambda_max_rule(ctx: MeasurementContext) -> bool:
-            """Full batch lambda max frequency rule."""
-            # Base frequency depends on batch size
-            if ctx.batch_size <= 33:
-                base_freq = 256
-            else:
-                base_freq = 64
+            """Full batch lambda max frequency rule.
 
-            if ctx.precise_plots:
-                base_freq = min(base_freq, 32)
+            Only measure at specific snapshot steps: [0, 100, 1000, 5000, 10000, 50000, 100000]
+            This dramatically reduces measurement overhead while capturing key training milestones.
+            """
+            # Snapshot steps where lambda max is measured
+            snapshot_steps = [0, 100, 1000, 5000, 10000, 50000, 100000]
+            return ctx.step_number in snapshot_steps
 
-            
-            # Reduce frequency as training progresses
-            freq = base_freq
-            if ctx.step_number > 10_000:
-                freq *= 2
-            if ctx.step_number > 30_000:
-                freq *= 2
-            # if ctx.step_number > 100_000:
-                # freq *= 2
-            
-            
-            # Rare-measure: make much rarer
-            freq = _rare_scale(ctx, freq, heavy=True)
-
-            return ctx.step_number % freq == 0
-        
         def full_batch_lambda_max_early_rule(ctx: MeasurementContext) -> bool:
             """Full batch lambda max with early frequent measurements."""
             # FIRST_FEW = 256
@@ -93,7 +76,7 @@ class FrequencyCalculator:
                     base_freq = 64
                 else:
                     base_freq = 16
-            
+
             freq = base_freq
             if ctx.step_number > 10_000:
                 freq *= 2
@@ -106,19 +89,15 @@ class FrequencyCalculator:
             freq = _rare_scale(ctx, freq, heavy=True)
 
             return ctx.step_number % freq == 0
-        
 
-
-
-            
             # if ctx.step_number < FIRST_SUPER_FEW:
             #     return True
             # if ctx.step_number < FIRST_FEW:
             #     return ctx.step_number % 4 == 0
-                
+
             # Fall back to regular rule
             # return full_batch_lambda_max_rule(ctx)
-        
+
         def batch_lambda_max_rule(ctx: MeasurementContext) -> bool:
             """Batch lambda max frequency rule."""
             if ctx.batch_size > 32:
@@ -127,67 +106,52 @@ class FrequencyCalculator:
                 base_freq = 32
                 if ctx.batch_size > 16:
                     base_freq = 64
-            
+
             freq = base_freq
             # Rare-measure: lightly sparsify batch variant
             freq = _rare_scale(ctx, freq, heavy=False)
             return ctx.step_number % freq == 0
-        
+
         def batch_sharpness_rule(ctx: MeasurementContext) -> bool:
-            """Batch sharpness frequency rule (expected Rayleigh quotient)."""
-            if ctx.batch_size < 33:
-                base_freq = 128
-            else:
-                base_freq = 32
-            
-            freq = base_freq
-            if ctx.step_number > 10_000:
-                freq *= 2
-            if ctx.step_number > 50_000:
-                freq *= 2
-            if ctx.step_number > 100_000:
-                freq *= 2
-                
-            # Preferred batch sharpness; light sparsification only
-            freq = _rare_scale(ctx, freq, heavy=False)
-            return ctx.step_number % freq == 0
-        
-        
+            """Batch sharpness frequency rule (expected Rayleigh quotient).
+
+            Only measure at specific snapshot steps: [0, 100, 1000, 5000, 10000, 50000, 100000]
+            This dramatically reduces measurement overhead while capturing key training milestones.
+            """
+            # Snapshot steps where batch sharpness is measured
+            snapshot_steps = [0, 100, 1000, 5000, 10000, 50000, 100000]
+            return ctx.step_number in snapshot_steps
+
         def step_sharpness_rule(ctx: MeasurementContext) -> bool:
             """Step sharpness frequency rule (single batch Rayleigh quotient)."""
             freq = 16
             # Keep cheap step sharpness largely unchanged in rare mode
             return ctx.step_number % freq == 0
 
-
-        
-
-        
         def batch_sharpness_exp_inside_rule(ctx: MeasurementContext) -> bool:
             """Batch sharpness (but with expectation inside) frequency rule."""
             if ctx.batch_size < 33:
                 base_freq = 128
             else:
                 base_freq = 64
-            
+
             freq = base_freq
             if ctx.step_number > 10_000:
                 freq *= 2
             if ctx.step_number > 30_000:
                 freq *= 2
-                
+
             # Rare-measure: averaging across many batches is costly
             freq = _rare_scale(ctx, freq, heavy=True)
             return ctx.step_number % freq == 0
 
-        
         def full_ghg_rule(ctx: MeasurementContext) -> bool:
             """Full GHG measurement frequency rule."""
             if ctx.batch_size > 32:
                 base_freq = 256
             else:
                 base_freq = 512
-            
+
             freq = base_freq
             if ctx.step_number > 10_000:
                 freq *= 2
@@ -216,14 +180,14 @@ class FrequencyCalculator:
             # Light sparsification only for batch version
             freq = _rare_scale(ctx, freq, heavy=False)
             return ctx.step_number % freq == 0
-        
+
         def fisher_total_rule(ctx: MeasurementContext) -> bool:
             """Fisher information total frequency rule."""
             if ctx.batch_size > 32:
                 base_freq = 64 * 2
             else:
                 base_freq = 128 * 2
-            
+
             freq = base_freq
             if ctx.step_number > 10_000:
                 freq *= 2
@@ -232,21 +196,21 @@ class FrequencyCalculator:
             # Rare-measure: total Fisher is expensive; sparsify strongly
             freq = _rare_scale(ctx, freq, heavy=True)
             return ctx.step_number % freq == 0
-        
+
         def fisher_batch_rule(ctx: MeasurementContext) -> bool:
             """Fisher information batch frequency rule."""
             if ctx.batch_size > 32:
                 base_freq = 8
             else:
                 base_freq = 4
-            
+
             freq = base_freq
             if ctx.step_number > 10_000:
                 freq *= 2
             # Light sparsification only
             freq = _rare_scale(ctx, freq, heavy=False)
             return ctx.step_number % freq == 0
-        
+
         def gni_rule(ctx: MeasurementContext) -> bool:
             """Gradient-noise interaction frequency rule."""
             if ctx.batch_size < 33:
@@ -256,7 +220,7 @@ class FrequencyCalculator:
 
             # temp override for CNN
             base_freq = 2500
-            
+
             # temp override for the run!
             # if ctx.step_number < 257:
             #     return ctx.step_number % 8 == 0
@@ -266,10 +230,10 @@ class FrequencyCalculator:
             #         base_freq = 64
             #     else:
             #         base_freq = 32
-                
+
             #     if ctx.lr > 0.005:
             #         base_freq = base_freq / 2
-            
+
             if ctx.step_number > 10_000:
                 base_freq *= 4
             if ctx.step_number > 50_000:
@@ -277,15 +241,15 @@ class FrequencyCalculator:
             # Rare-measure: GNI heavy; sparsify strongly
             base_freq = _rare_scale(ctx, base_freq, heavy=True)
             return ctx.step_number % base_freq == 0
-        
+
         def param_distance_rule(ctx: MeasurementContext) -> bool:
             """Parameter distance measurement frequency rule."""
             return ctx.step_number % 1 == 0  # Every step
-        
+
         def checkpoint_rule(ctx: MeasurementContext) -> bool:
             """Checkpoint saving frequency rule."""
             return ctx.step_number % 32 == 0
-        
+
         def full_loss_rule(ctx: MeasurementContext) -> bool:
             """Full loss calculation frequency rule (for GNI)."""
             freq = 32
@@ -300,14 +264,14 @@ class FrequencyCalculator:
                 base_freq = 128
             else:
                 base_freq = 64
-            
+
             freq = base_freq
             if ctx.step_number > 10_000:
                 freq *= 2
             # Rare-measure: can be expensive depending on estimator
             freq = _rare_scale(ctx, freq, heavy=False)
             return ctx.step_number % freq == 0
-        
+
         def one_step_loss_change_rule(ctx: MeasurementContext) -> bool:
             """Expected one-step loss change measurement frequency rule."""
             if ctx.batch_size < 33:
@@ -320,8 +284,7 @@ class FrequencyCalculator:
                     base_freq = 64
                 else:
                     base_freq = 32
-                    
-            
+
             freq = base_freq
             if ctx.step_number > 10_000:
                 freq *= 2
@@ -365,7 +328,7 @@ class FrequencyCalculator:
             tuned centrally later without changing training code.
             """
             return True
-        
+
         # Register all default rules
         self.rules.update({
             'full_batch_lambda_max': full_batch_lambda_max_rule,
@@ -388,33 +351,33 @@ class FrequencyCalculator:
             'grad_projection': grad_projection_rule,
             'proj_eigens_refresh': proj_eigens_refresh_rule
         })
-    
+
     def should_measure(self, measurement_type: str, ctx: MeasurementContext) -> bool:
         """
         Check if a measurement should be performed at this step.
-        
+
         Args:
             measurement_type: Name of the measurement type
             ctx: Context containing step_number, batch_size, etc.
-            
+
         Returns:
             True if measurement should be performed
         """
         if measurement_type not in self.rules:
             raise ValueError(f"Unknown measurement type: {measurement_type}")
-        
+
         return self.rules[measurement_type](ctx)
-    
+
     def set_rule(self, measurement_type: str, rule_func: Callable[[MeasurementContext], bool]):
         """
         Set a custom frequency rule for a measurement type.
-        
+
         Args:
             measurement_type: Name of the measurement type
             rule_func: Function that takes MeasurementContext and returns bool
         """
         self.rules[measurement_type] = rule_func
-    
+
     def get_available_measurements(self) -> list:
         """Get list of available measurement types."""
         return list(self.rules.keys())
@@ -458,5 +421,6 @@ def should_measure_gni(step_number: int, batch_size: int) -> bool:
 
 def should_save_checkpoint(step_number: int) -> bool:
     """Convenience function for checkpoint frequency."""
-    ctx = MeasurementContext(step_number=step_number, batch_size=1)  # batch_size doesn't matter for checkpoints
+    ctx = MeasurementContext(
+        step_number=step_number, batch_size=1)  # batch_size doesn't matter for checkpoints
     return frequency_calculator.should_measure('checkpoint', ctx)
