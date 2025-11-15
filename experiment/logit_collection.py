@@ -2,9 +2,6 @@
 Logit collection functions for the Keller Jordan experiment.
 """
 
-from utils.data import prepare_dataset, get_dataset_presets
-from utils.nets import prepare_net, get_model_presets
-from utils.naming import compose_run_name
 import torch.nn as nn
 import torch
 import numpy as np
@@ -17,6 +14,9 @@ from typing import Optional
 
 # Add parent directory to path before importing utils
 sys.path.insert(0, str(Path(__file__).parent.parent))
+from utils.data import prepare_dataset, get_dataset_presets
+from utils.nets import prepare_net, get_model_presets
+from utils.naming import compose_run_name
 
 
 # Try relative import first (when used as package), fall back to direct import
