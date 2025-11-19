@@ -1,0 +1,76 @@
+Job: 44336436 on node091 at Wed Nov 19 15:32:28 EST 2025
+Config: Multiple nets × 3 LRs × 100k steps | Checkpoints: 0,100,1k,5k,10k,50k,100k
+GPUs allocated: 4
+CPU cores: 32
+Available GPUs:
+GPU 0: Quadro RTX 6000 (UUID: GPU-bc01cd3b-0bba-9b0e-c45d-b34c99ee2f8e)
+GPU 1: Quadro RTX 6000 (UUID: GPU-39ab7994-4b38-99bb-1391-8c55a7c401a8)
+GPU 2: Quadro RTX 6000 (UUID: GPU-95dd35de-2058-9c92-b0a2-ff2c1461653a)
+GPU 3: Quadro RTX 6000 (UUID: GPU-da122cd9-5827-051e-1989-50a2a74d242b)
+CUDA_VISIBLE_DEVICES: 0,1,2,3
+NUM_GPUS (from SLURM): 4
+CUDA_VISIBLE_DEVICES (from SLURM): 0,1,2,3
+Clearing GPU cache...
+GPU memory status:
+0, 0, 24576
+1, 0, 24576
+2, 0, 24576
+3, 0, 24576
+Cleaning previous experiment outputs for a clean state...
+  Removing logits directories...
+  Removing aggregated data files...
+  Removing previous plots...
+Clean state ready. Starting experiment...
+[1/4] Training...
+Warning: wandb not available. Visualization features will be limited.
+
+============================================================
+STARTING KELLER JORDAN EXPERIMENT
+============================================================
+Learning rates: [0.4, 0.5, 0.6]
+Runs per LR: 2
+Total runs: 6
+Detected 4 GPU(s) from CUDA_VISIBLE_DEVICES: 0,1,2,3
+Allocated GPU device IDs: ['0', '1', '2', '3']
+Available GPUs: 4, Total runs: 6
+Will process runs in batches of 4 (one per GPU)
+============================================================
+
+Task-GPU assignments:
+  Task 1: LR=0.4, Run=0 -> GPU 0
+  Task 2: LR=0.4, Run=1 -> GPU 1
+  Task 3: LR=0.5, Run=0 -> GPU 2
+  Task 4: LR=0.5, Run=1 -> GPU 3
+  Task 5: LR=0.6, Run=0 -> GPU 0
+  Task 6: LR=0.6, Run=1 -> GPU 1
+
+Running 6 training runs in parallel on 4 GPU(s) (queue-based, non-blocking)...
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251119_153252-lznee4jr
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251119_153252-s2hx49y0
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251119_153253-bx5s2l2d
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251119_153253-9t5bxgdk
+slurmstepd: error: *** JOB 44336436 ON node091 CANCELLED AT 2025-11-19T15:34:06 ***

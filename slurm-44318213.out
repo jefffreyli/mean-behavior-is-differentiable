@@ -1,0 +1,1542 @@
+Warning: wandb not available. Visualization features will be limited.
+
+============================================================
+STARTING KELLER JORDAN EXPERIMENT
+============================================================
+Learning rates: [0.4, 0.5, 0.6]
+Runs per LR: 2
+Total runs: 6
+Detected 4 GPU(s) from CUDA_VISIBLE_DEVICES: 0,1,2,3
+Allocated GPU device IDs: ['0', '1', '2', '3']
+Available GPUs: 4, Total runs: 6
+Will process runs in batches of 4 (one per GPU)
+============================================================
+
+Task-GPU assignments:
+  Task 1: LR=0.4, Run=0 -> GPU 0
+  Task 2: LR=0.4, Run=1 -> GPU 1
+  Task 3: LR=0.5, Run=0 -> GPU 2
+  Task 4: LR=0.5, Run=1 -> GPU 3
+  Task 5: LR=0.6, Run=0 -> GPU 0
+  Task 6: LR=0.6, Run=1 -> GPU 1
+
+Running 6 training runs in parallel on 4 GPU(s) (queue-based, non-blocking)...
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004853-vi7ofpbo
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004853-mdinnq9b
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004854-5f7csrld
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004854-pm81wt4h
+wandb: 
+wandb: Run history:
+wandb:                accuracy ▁▁▆██
+wandb:              batch_loss ██▆▅▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:            batch_sharpn ▁▁█▄▄
+wandb:                   epoch ▁▁▁▁▂▂▂▂▂▃▃▃▃▃▃▃▃▃▄▄▄▅▅▅▅▅▅▅▅▅▆▆▆▆▆▇▇███
+wandb:               full_loss █▇▄▁▁
+wandb:              lambda_max ▁▁█▃▃
+wandb:       lobpcg_iterations █▁▁▂▁
+wandb: number_of_gHg_estimates ▁▁▁▁▁
+wandb:                    step ▁▁▁▁▂▂▂▂▂▃▃▄▄▄▄▄▄▅▅▅▅▅▅▅▅▆▆▆▆▆▆▆▇▇▇▇▇███
+wandb: 
+wandb: Run summary:
+wandb:                accuracy 1
+wandb:              batch_loss 0.0001
+wandb:            batch_sharpn 4.48239
+wandb:                   epoch 128
+wandb:               full_loss 0.00012
+wandb:              lambda_max 4.99023
+wandb:       lobpcg_iterations 6
+wandb: number_of_gHg_estimates 5
+wandb:                    step 10061
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004854-pm81wt4h
+wandb: Find logs at: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004854-pm81wt4h/logs
+Started new wandb run: pm81wt4h
+Training started at 2025-11-15 00:48:55
+Will save checkpoints every 100 steps
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 1, Step 0: Total lambda max = 2.27781343460083, Loss = 0.9996832013130188 !!!
+Checkpoint saved at step 0: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_0.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 2, Step 22: Total lambda max = 2.2725186347961426, Loss = 0.9084795713424683 !!!
+Checkpoint saved at step 100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_100.pt
+Checkpoint saved at step 200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_200.pt
+Checkpoint saved at step 300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_300.pt
+Checkpoint saved at step 400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_400.pt
+Checkpoint saved at step 500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_500.pt
+Checkpoint saved at step 600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_600.pt
+Checkpoint saved at step 700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_700.pt
+Checkpoint saved at step 800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_800.pt
+Checkpoint saved at step 900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 13, Step 64: Total lambda max = 10.544509887695312, Loss = 0.4495314955711365 !!!
+Checkpoint saved at step 1000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1000.pt
+Checkpoint saved at step 1100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1100.pt
+Checkpoint saved at step 1200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1200.pt
+Checkpoint saved at step 1300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1300.pt
+Checkpoint saved at step 1400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1400.pt
+Checkpoint saved at step 1500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1500.pt
+Checkpoint saved at step 1600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1600.pt
+Checkpoint saved at step 1700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1700.pt
+Checkpoint saved at step 1800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1800.pt
+Checkpoint saved at step 1900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_1900.pt
+Checkpoint saved at step 2000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2000.pt
+Checkpoint saved at step 2100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2100.pt
+Checkpoint saved at step 2200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2200.pt
+Checkpoint saved at step 2300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2300.pt
+Checkpoint saved at step 2400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2400.pt
+Checkpoint saved at step 2500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2500.pt
+Checkpoint saved at step 2600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2600.pt
+Checkpoint saved at step 2700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2700.pt
+Checkpoint saved at step 2800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2800.pt
+Checkpoint saved at step 2900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_2900.pt
+Checkpoint saved at step 3000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3000.pt
+Checkpoint saved at step 3100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3100.pt
+Checkpoint saved at step 3200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3200.pt
+Checkpoint saved at step 3300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3300.pt
+Checkpoint saved at step 3400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3400.pt
+Checkpoint saved at step 3500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3500.pt
+Checkpoint saved at step 3600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3600.pt
+Checkpoint saved at step 3700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3700.pt
+Checkpoint saved at step 3800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3800.pt
+Checkpoint saved at step 3900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_3900.pt
+Checkpoint saved at step 4000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4000.pt
+Checkpoint saved at step 4100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4100.pt
+Checkpoint saved at step 4200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4200.pt
+Checkpoint saved at step 4300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4300.pt
+Checkpoint saved at step 4400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4400.pt
+Checkpoint saved at step 4500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4500.pt
+Checkpoint saved at step 4600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4600.pt
+Checkpoint saved at step 4700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4700.pt
+Checkpoint saved at step 4800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4800.pt
+Checkpoint saved at step 4900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_4900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 65, Step 8: Total lambda max = 4.9268083572387695, Loss = 0.0008066126029007137 !!!
+Checkpoint saved at step 5000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5000.pt
+Checkpoint saved at step 5100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5100.pt
+Checkpoint saved at step 5200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5200.pt
+Checkpoint saved at step 5300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5300.pt
+Checkpoint saved at step 5400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5400.pt
+Checkpoint saved at step 5500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5500.pt
+Checkpoint saved at step 5600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5600.pt
+Checkpoint saved at step 5700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5700.pt
+Checkpoint saved at step 5800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5800.pt
+Checkpoint saved at step 5900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_5900.pt
+Checkpoint saved at step 6000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6000.pt
+Checkpoint saved at step 6100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6100.pt
+Checkpoint saved at step 6200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6200.pt
+Checkpoint saved at step 6300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6300.pt
+Checkpoint saved at step 6400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6400.pt
+Checkpoint saved at step 6500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6500.pt
+Checkpoint saved at step 6600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6600.pt
+Checkpoint saved at step 6700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6700.pt
+Checkpoint saved at step 6800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6800.pt
+Checkpoint saved at step 6900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_6900.pt
+Checkpoint saved at step 7000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7000.pt
+Checkpoint saved at step 7100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7100.pt
+Checkpoint saved at step 7200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7200.pt
+Checkpoint saved at step 7300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7300.pt
+Checkpoint saved at step 7400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7400.pt
+Checkpoint saved at step 7500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7500.pt
+Checkpoint saved at step 7600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7600.pt
+Checkpoint saved at step 7700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7700.pt
+Checkpoint saved at step 7800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7800.pt
+Checkpoint saved at step 7900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_7900.pt
+Checkpoint saved at step 8000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8000.pt
+Checkpoint saved at step 8100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8100.pt
+Checkpoint saved at step 8200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8200.pt
+Checkpoint saved at step 8300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8300.pt
+Checkpoint saved at step 8400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8400.pt
+Checkpoint saved at step 8500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8500.pt
+Checkpoint saved at step 8600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8600.pt
+Checkpoint saved at step 8700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8700.pt
+Checkpoint saved at step 8800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8800.pt
+Checkpoint saved at step 8900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_8900.pt
+Checkpoint saved at step 9000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9000.pt
+Checkpoint saved at step 9100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9100.pt
+Checkpoint saved at step 9200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9200.pt
+Checkpoint saved at step 9300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9300.pt
+Checkpoint saved at step 9400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9400.pt
+Checkpoint saved at step 9500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9500.pt
+Checkpoint saved at step 9600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9600.pt
+Checkpoint saved at step 9700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9700.pt
+Checkpoint saved at step 9800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9800.pt
+Checkpoint saved at step 9900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_9900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 129, Step 16: Total lambda max = 4.990231513977051, Loss = 0.00011938669922528788 !!!
+Checkpoint saved at step 10000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_10000.pt
+Reached max steps 10000, stopping the training
+Final checkpoint saved: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/pm81wt4h/checkpoint_step_10061.pt
+Training finished at 2025-11-15 00:50:42
+Total training time: 106.71 seconds
+wandb: 
+wandb: Run history:
+wandb:                accuracy ▁▁▇██
+wandb:              batch_loss ███▇▄▃▃▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:            batch_sharpn ▁▇▂▇█
+wandb:                   epoch ▁▁▁▁▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▄▄▄▄▅▅▆▆▆▆▆▆▇▇▇▇█████
+wandb:               full_loss █▇▃▁▁
+wandb:              lambda_max ▁█▅▅▅
+wandb:       lobpcg_iterations █▂▅▅▁
+wandb: number_of_gHg_estimates ▁▁▁▁▁
+wandb:                    step ▁▁▂▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▄▄▅▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇████
+wandb: 
+wandb: Run summary:
+wandb:                accuracy 1
+wandb:              batch_loss 4e-05
+wandb:            batch_sharpn 6.12082
+wandb:                   epoch 128
+wandb:               full_loss 0.00013
+wandb:              lambda_max 6.55828
+wandb:       lobpcg_iterations 4
+wandb: number_of_gHg_estimates 5
+wandb:                    step 10061
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004854-5f7csrld
+wandb: Find logs at: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004854-5f7csrld/logs
+Started new wandb run: 5f7csrld
+Training started at 2025-11-15 00:48:55
+Will save checkpoints every 100 steps
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 1, Step 0: Total lambda max = 2.2657153606414795, Loss = 1.000449776649475 !!!
+Checkpoint saved at step 0: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_0.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 2, Step 22: Total lambda max = 9.396032333374023, Loss = 0.8854373693466187 !!!
+Checkpoint saved at step 100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_100.pt
+Checkpoint saved at step 200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_200.pt
+Checkpoint saved at step 300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_300.pt
+Checkpoint saved at step 400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_400.pt
+Checkpoint saved at step 500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_500.pt
+Checkpoint saved at step 600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_600.pt
+Checkpoint saved at step 700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_700.pt
+Checkpoint saved at step 800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_800.pt
+Checkpoint saved at step 900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 13, Step 64: Total lambda max = 6.432550430297852, Loss = 0.3162500858306885 !!!
+Checkpoint saved at step 1000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1000.pt
+Checkpoint saved at step 1100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1100.pt
+Checkpoint saved at step 1200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1200.pt
+Checkpoint saved at step 1300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1300.pt
+Checkpoint saved at step 1400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1400.pt
+Checkpoint saved at step 1500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1500.pt
+Checkpoint saved at step 1600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1600.pt
+Checkpoint saved at step 1700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1700.pt
+Checkpoint saved at step 1800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1800.pt
+Checkpoint saved at step 1900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_1900.pt
+Checkpoint saved at step 2000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2000.pt
+Checkpoint saved at step 2100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2100.pt
+Checkpoint saved at step 2200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2200.pt
+Checkpoint saved at step 2300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2300.pt
+Checkpoint saved at step 2400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2400.pt
+Checkpoint saved at step 2500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2500.pt
+Checkpoint saved at step 2600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2600.pt
+Checkpoint saved at step 2700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2700.pt
+Checkpoint saved at step 2800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2800.pt
+Checkpoint saved at step 2900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_2900.pt
+Checkpoint saved at step 3000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3000.pt
+Checkpoint saved at step 3100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3100.pt
+Checkpoint saved at step 3200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3200.pt
+Checkpoint saved at step 3300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3300.pt
+Checkpoint saved at step 3400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3400.pt
+Checkpoint saved at step 3500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3500.pt
+Checkpoint saved at step 3600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3600.pt
+Checkpoint saved at step 3700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3700.pt
+Checkpoint saved at step 3800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3800.pt
+Checkpoint saved at step 3900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_3900.pt
+Checkpoint saved at step 4000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4000.pt
+Checkpoint saved at step 4100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4100.pt
+Checkpoint saved at step 4200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4200.pt
+Checkpoint saved at step 4300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4300.pt
+Checkpoint saved at step 4400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4400.pt
+Checkpoint saved at step 4500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4500.pt
+Checkpoint saved at step 4600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4600.pt
+Checkpoint saved at step 4700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4700.pt
+Checkpoint saved at step 4800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4800.pt
+Checkpoint saved at step 4900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_4900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 65, Step 8: Total lambda max = 6.361086845397949, Loss = 0.0004736298287753016 !!!
+Checkpoint saved at step 5000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5000.pt
+Checkpoint saved at step 5100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5100.pt
+Checkpoint saved at step 5200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5200.pt
+Checkpoint saved at step 5300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5300.pt
+Checkpoint saved at step 5400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5400.pt
+Checkpoint saved at step 5500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5500.pt
+Checkpoint saved at step 5600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5600.pt
+Checkpoint saved at step 5700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5700.pt
+Checkpoint saved at step 5800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5800.pt
+Checkpoint saved at step 5900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_5900.pt
+Checkpoint saved at step 6000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6000.pt
+Checkpoint saved at step 6100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6100.pt
+Checkpoint saved at step 6200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6200.pt
+Checkpoint saved at step 6300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6300.pt
+Checkpoint saved at step 6400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6400.pt
+Checkpoint saved at step 6500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6500.pt
+Checkpoint saved at step 6600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6600.pt
+Checkpoint saved at step 6700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6700.pt
+Checkpoint saved at step 6800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6800.pt
+Checkpoint saved at step 6900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_6900.pt
+Checkpoint saved at step 7000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7000.pt
+Checkpoint saved at step 7100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7100.pt
+Checkpoint saved at step 7200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7200.pt
+Checkpoint saved at step 7300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7300.pt
+Checkpoint saved at step 7400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7400.pt
+Checkpoint saved at step 7500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7500.pt
+Checkpoint saved at step 7600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7600.pt
+Checkpoint saved at step 7700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7700.pt
+Checkpoint saved at step 7800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7800.pt
+Checkpoint saved at step 7900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_7900.pt
+Checkpoint saved at step 8000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8000.pt
+Checkpoint saved at step 8100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8100.pt
+Checkpoint saved at step 8200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8200.pt
+Checkpoint saved at step 8300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8300.pt
+Checkpoint saved at step 8400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8400.pt
+Checkpoint saved at step 8500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8500.pt
+Checkpoint saved at step 8600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8600.pt
+Checkpoint saved at step 8700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8700.pt
+Checkpoint saved at step 8800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8800.pt
+Checkpoint saved at step 8900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_8900.pt
+Checkpoint saved at step 9000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9000.pt
+Checkpoint saved at step 9100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9100.pt
+Checkpoint saved at step 9200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9200.pt
+Checkpoint saved at step 9300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9300.pt
+Checkpoint saved at step 9400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9400.pt
+Checkpoint saved at step 9500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9500.pt
+Checkpoint saved at step 9600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9600.pt
+Checkpoint saved at step 9700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9700.pt
+Checkpoint saved at step 9800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9800.pt
+Checkpoint saved at step 9900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_9900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 129, Step 16: Total lambda max = 6.5582780838012695, Loss = 0.00013157511421013623 !!!
+Checkpoint saved at step 10000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_10000.pt
+Reached max steps 10000, stopping the training
+Final checkpoint saved: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/5f7csrld/checkpoint_step_10061.pt
+Training finished at 2025-11-15 00:50:42
+Total training time: 106.99 seconds
+wandb: 
+wandb: Run history:
+wandb:                accuracy ▁▂▇██
+wandb:              batch_loss ███▇▃▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:            batch_sharpn ▂▁▇██
+wandb:                   epoch ▁▁▁▂▂▂▂▂▂▂▂▃▃▄▄▄▄▄▄▄▅▅▅▅▅▅▅▅▅▆▆▆▆▆▆▇▇▇▇█
+wandb:               full_loss █▇▃▁▁
+wandb:              lambda_max ▁▂█▅▅
+wandb:       lobpcg_iterations █▁▂▃▂
+wandb: number_of_gHg_estimates ▁▁▁▁▁
+wandb:                    step ▁▁▁▁▁▁▂▂▂▂▂▂▂▂▂▃▃▃▃▃▄▄▄▄▄▄▅▅▅▅▆▆▇▇▇▇▇▇██
+wandb: 
+wandb: Run summary:
+wandb:                accuracy 1
+wandb:              batch_loss 7e-05
+wandb:            batch_sharpn 5.46298
+wandb:                   epoch 128
+wandb:               full_loss 5e-05
+wandb:              lambda_max 5.99578
+wandb:       lobpcg_iterations 11
+wandb: number_of_gHg_estimates 5
+wandb:                    step 10061
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004853-vi7ofpbo
+wandb: Find logs at: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004853-vi7ofpbo/logs
+Started new wandb run: vi7ofpbo
+Training started at 2025-11-15 00:48:54
+Will save checkpoints every 100 steps
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 1, Step 0: Total lambda max = 2.2420167922973633, Loss = 1.000531554222107 !!!
+Checkpoint saved at step 0: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_0.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 2, Step 22: Total lambda max = 3.2443883419036865, Loss = 0.8686161041259766 !!!
+Checkpoint saved at step 100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_100.pt
+Checkpoint saved at step 200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_200.pt
+Checkpoint saved at step 300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_300.pt
+Checkpoint saved at step 400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_400.pt
+Checkpoint saved at step 500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_500.pt
+Checkpoint saved at step 600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_600.pt
+Checkpoint saved at step 700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_700.pt
+Checkpoint saved at step 800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_800.pt
+Checkpoint saved at step 900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 13, Step 64: Total lambda max = 8.971426010131836, Loss = 0.2996319830417633 !!!
+Checkpoint saved at step 1000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1000.pt
+Checkpoint saved at step 1100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1100.pt
+Checkpoint saved at step 1200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1200.pt
+Checkpoint saved at step 1300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1300.pt
+Checkpoint saved at step 1400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1400.pt
+Checkpoint saved at step 1500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1500.pt
+Checkpoint saved at step 1600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1600.pt
+Checkpoint saved at step 1700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1700.pt
+Checkpoint saved at step 1800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1800.pt
+Checkpoint saved at step 1900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_1900.pt
+Checkpoint saved at step 2000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2000.pt
+Checkpoint saved at step 2100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2100.pt
+Checkpoint saved at step 2200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2200.pt
+Checkpoint saved at step 2300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2300.pt
+Checkpoint saved at step 2400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2400.pt
+Checkpoint saved at step 2500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2500.pt
+Checkpoint saved at step 2600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2600.pt
+Checkpoint saved at step 2700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2700.pt
+Checkpoint saved at step 2800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2800.pt
+Checkpoint saved at step 2900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_2900.pt
+Checkpoint saved at step 3000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3000.pt
+Checkpoint saved at step 3100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3100.pt
+Checkpoint saved at step 3200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3200.pt
+Checkpoint saved at step 3300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3300.pt
+Checkpoint saved at step 3400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3400.pt
+Checkpoint saved at step 3500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3500.pt
+Checkpoint saved at step 3600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3600.pt
+Checkpoint saved at step 3700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3700.pt
+Checkpoint saved at step 3800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3800.pt
+Checkpoint saved at step 3900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_3900.pt
+Checkpoint saved at step 4000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4000.pt
+Checkpoint saved at step 4100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4100.pt
+Checkpoint saved at step 4200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4200.pt
+Checkpoint saved at step 4300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4300.pt
+Checkpoint saved at step 4400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4400.pt
+Checkpoint saved at step 4500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4500.pt
+Checkpoint saved at step 4600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4600.pt
+Checkpoint saved at step 4700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4700.pt
+Checkpoint saved at step 4800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4800.pt
+Checkpoint saved at step 4900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_4900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 65, Step 8: Total lambda max = 6.231652736663818, Loss = 0.0004962679231539369 !!!
+Checkpoint saved at step 5000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5000.pt
+Checkpoint saved at step 5100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5100.pt
+Checkpoint saved at step 5200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5200.pt
+Checkpoint saved at step 5300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5300.pt
+Checkpoint saved at step 5400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5400.pt
+Checkpoint saved at step 5500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5500.pt
+Checkpoint saved at step 5600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5600.pt
+Checkpoint saved at step 5700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5700.pt
+Checkpoint saved at step 5800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5800.pt
+Checkpoint saved at step 5900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_5900.pt
+Checkpoint saved at step 6000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6000.pt
+Checkpoint saved at step 6100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6100.pt
+Checkpoint saved at step 6200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6200.pt
+Checkpoint saved at step 6300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6300.pt
+Checkpoint saved at step 6400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6400.pt
+Checkpoint saved at step 6500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6500.pt
+Checkpoint saved at step 6600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6600.pt
+Checkpoint saved at step 6700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6700.pt
+Checkpoint saved at step 6800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6800.pt
+Checkpoint saved at step 6900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_6900.pt
+Checkpoint saved at step 7000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7000.pt
+Checkpoint saved at step 7100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7100.pt
+Checkpoint saved at step 7200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7200.pt
+Checkpoint saved at step 7300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7300.pt
+Checkpoint saved at step 7400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7400.pt
+Checkpoint saved at step 7500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7500.pt
+Checkpoint saved at step 7600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7600.pt
+Checkpoint saved at step 7700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7700.pt
+Checkpoint saved at step 7800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7800.pt
+Checkpoint saved at step 7900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_7900.pt
+Checkpoint saved at step 8000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8000.pt
+Checkpoint saved at step 8100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8100.pt
+Checkpoint saved at step 8200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8200.pt
+Checkpoint saved at step 8300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8300.pt
+Checkpoint saved at step 8400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8400.pt
+Checkpoint saved at step 8500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8500.pt
+Checkpoint saved at step 8600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8600.pt
+Checkpoint saved at step 8700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8700.pt
+Checkpoint saved at step 8800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8800.pt
+Checkpoint saved at step 8900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_8900.pt
+Checkpoint saved at step 9000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9000.pt
+Checkpoint saved at step 9100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9100.pt
+Checkpoint saved at step 9200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9200.pt
+Checkpoint saved at step 9300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9300.pt
+Checkpoint saved at step 9400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9400.pt
+Checkpoint saved at step 9500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9500.pt
+Checkpoint saved at step 9600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9600.pt
+Checkpoint saved at step 9700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9700.pt
+Checkpoint saved at step 9800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9800.pt
+Checkpoint saved at step 9900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_9900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 129, Step 16: Total lambda max = 5.995783805847168, Loss = 5.0834467401728034e-05 !!!
+Checkpoint saved at step 10000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_10000.pt
+Reached max steps 10000, stopping the training
+Final checkpoint saved: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/vi7ofpbo/checkpoint_step_10061.pt
+Training finished at 2025-11-15 00:50:43
+Total training time: 109.46 seconds
+wandb: 
+wandb: Run history:
+wandb:                accuracy ▁▂▅██
+wandb:              batch_loss █▇▇▇▆▅▆▅▄▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:            batch_sharpn ▂█▁▄▅
+wandb:                   epoch ▁▁▁▁▁▁▂▂▂▂▂▂▃▃▃▄▄▄▄▄▅▅▅▅▅▆▆▆▆▆▆▆▆▇▇▇▇███
+wandb:               full_loss █▇▅▁▁
+wandb:              lambda_max ▁█▃▄▅
+wandb:       lobpcg_iterations █▁▄▄▂
+wandb: number_of_gHg_estimates ▁▁▁▁▁
+wandb:                    step ▁▁▁▁▁▂▂▂▂▂▂▃▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▆▆▆▆▇▇▇▇▇▇▇█
+wandb: 
+wandb: Run summary:
+wandb:                accuracy 1
+wandb:              batch_loss 0.00023
+wandb:            batch_sharpn 4.19926
+wandb:                   epoch 128
+wandb:               full_loss 0.00033
+wandb:              lambda_max 5.75524
+wandb:       lobpcg_iterations 6
+wandb: number_of_gHg_estimates 5
+wandb:                    step 10061
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004853-mdinnq9b
+wandb: Find logs at: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_004853-mdinnq9b/logs
+Started new wandb run: mdinnq9b
+Training started at 2025-11-15 00:48:54
+Will save checkpoints every 100 steps
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 1, Step 0: Total lambda max = 2.192863941192627, Loss = 1.0000979900360107 !!!
+Checkpoint saved at step 0: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_0.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 2, Step 22: Total lambda max = 8.689228057861328, Loss = 0.903114914894104 !!!
+Checkpoint saved at step 100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_100.pt
+Checkpoint saved at step 200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_200.pt
+Checkpoint saved at step 300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_300.pt
+Checkpoint saved at step 400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_400.pt
+Checkpoint saved at step 500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_500.pt
+Checkpoint saved at step 600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_600.pt
+Checkpoint saved at step 700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_700.pt
+Checkpoint saved at step 800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_800.pt
+Checkpoint saved at step 900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 13, Step 64: Total lambda max = 4.18193244934082, Loss = 0.5840883255004883 !!!
+Checkpoint saved at step 1000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1000.pt
+Checkpoint saved at step 1100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1100.pt
+Checkpoint saved at step 1200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1200.pt
+Checkpoint saved at step 1300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1300.pt
+Checkpoint saved at step 1400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1400.pt
+Checkpoint saved at step 1500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1500.pt
+Checkpoint saved at step 1600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1600.pt
+Checkpoint saved at step 1700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1700.pt
+Checkpoint saved at step 1800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1800.pt
+Checkpoint saved at step 1900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_1900.pt
+Checkpoint saved at step 2000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2000.pt
+Checkpoint saved at step 2100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2100.pt
+Checkpoint saved at step 2200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2200.pt
+Checkpoint saved at step 2300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2300.pt
+Checkpoint saved at step 2400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2400.pt
+Checkpoint saved at step 2500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2500.pt
+Checkpoint saved at step 2600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2600.pt
+Checkpoint saved at step 2700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2700.pt
+Checkpoint saved at step 2800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2800.pt
+Checkpoint saved at step 2900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_2900.pt
+Checkpoint saved at step 3000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3000.pt
+Checkpoint saved at step 3100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3100.pt
+Checkpoint saved at step 3200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3200.pt
+Checkpoint saved at step 3300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3300.pt
+Checkpoint saved at step 3400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3400.pt
+Checkpoint saved at step 3500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3500.pt
+Checkpoint saved at step 3600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3600.pt
+Checkpoint saved at step 3700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3700.pt
+Checkpoint saved at step 3800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3800.pt
+Checkpoint saved at step 3900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_3900.pt
+Checkpoint saved at step 4000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4000.pt
+Checkpoint saved at step 4100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4100.pt
+Checkpoint saved at step 4200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4200.pt
+Checkpoint saved at step 4300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4300.pt
+Checkpoint saved at step 4400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4400.pt
+Checkpoint saved at step 4500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4500.pt
+Checkpoint saved at step 4600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4600.pt
+Checkpoint saved at step 4700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4700.pt
+Checkpoint saved at step 4800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4800.pt
+Checkpoint saved at step 4900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_4900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 65, Step 8: Total lambda max = 5.289278984069824, Loss = 0.0006961218314245343 !!!
+Checkpoint saved at step 5000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5000.pt
+Checkpoint saved at step 5100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5100.pt
+Checkpoint saved at step 5200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5200.pt
+Checkpoint saved at step 5300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5300.pt
+Checkpoint saved at step 5400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5400.pt
+Checkpoint saved at step 5500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5500.pt
+Checkpoint saved at step 5600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5600.pt
+Checkpoint saved at step 5700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5700.pt
+Checkpoint saved at step 5800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5800.pt
+Checkpoint saved at step 5900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_5900.pt
+Checkpoint saved at step 6000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6000.pt
+Checkpoint saved at step 6100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6100.pt
+Checkpoint saved at step 6200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6200.pt
+Checkpoint saved at step 6300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6300.pt
+Checkpoint saved at step 6400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6400.pt
+Checkpoint saved at step 6500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6500.pt
+Checkpoint saved at step 6600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6600.pt
+Checkpoint saved at step 6700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6700.pt
+Checkpoint saved at step 6800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6800.pt
+Checkpoint saved at step 6900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_6900.pt
+Checkpoint saved at step 7000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7000.pt
+Checkpoint saved at step 7100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7100.pt
+Checkpoint saved at step 7200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7200.pt
+Checkpoint saved at step 7300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7300.pt
+Checkpoint saved at step 7400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7400.pt
+Checkpoint saved at step 7500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7500.pt
+Checkpoint saved at step 7600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7600.pt
+Checkpoint saved at step 7700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7700.pt
+Checkpoint saved at step 7800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7800.pt
+Checkpoint saved at step 7900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_7900.pt
+Checkpoint saved at step 8000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8000.pt
+Checkpoint saved at step 8100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8100.pt
+Checkpoint saved at step 8200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8200.pt
+Checkpoint saved at step 8300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8300.pt
+Checkpoint saved at step 8400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8400.pt
+Checkpoint saved at step 8500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8500.pt
+Checkpoint saved at step 8600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8600.pt
+Checkpoint saved at step 8700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8700.pt
+Checkpoint saved at step 8800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8800.pt
+Checkpoint saved at step 8900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_8900.pt
+Checkpoint saved at step 9000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9000.pt
+Checkpoint saved at step 9100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9100.pt
+Checkpoint saved at step 9200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9200.pt
+Checkpoint saved at step 9300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9300.pt
+Checkpoint saved at step 9400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9400.pt
+Checkpoint saved at step 9500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9500.pt
+Checkpoint saved at step 9600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9600.pt
+Checkpoint saved at step 9700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9700.pt
+Checkpoint saved at step 9800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9800.pt
+Checkpoint saved at step 9900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_9900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 129, Step 16: Total lambda max = 5.755243301391602, Loss = 0.000333821983076632 !!!
+Checkpoint saved at step 10000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_10000.pt
+Reached max steps 10000, stopping the training
+Final checkpoint saved: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/mdinnq9b/checkpoint_step_10061.pt
+Training finished at 2025-11-15 00:50:45
+Total training time: 111.74 seconds
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_005050-ylb4xv45
+wandb: Tracking run with wandb version 0.22.2
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_005052-qeunwn4h
+wandb: 
+wandb: Run history:
+wandb:                accuracy ▁▂▂██
+wandb:              batch_loss ▇█▇▇▇▇▆▆▆▄▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:            batch_sharpn ▁▂▁▇█
+wandb:                   epoch ▁▁▁▁▁▂▂▂▂▂▂▃▃▃▃▄▄▅▅▅▅▅▅▅▅▅▆▆▆▆▆▆▇▇▇▇▇▇▇█
+wandb:               full_loss █▇█▁▁
+wandb:              lambda_max ▁█▂▅▄
+wandb:       lobpcg_iterations █▁▂▂▂
+wandb: number_of_gHg_estimates ▁▁▁▁▁
+wandb:                    step ▁▁▁▁▂▂▃▃▃▃▃▃▃▃▄▄▄▅▅▅▅▅▅▅▅▆▆▆▆▇▇▇▇▇▇▇▇███
+wandb: 
+wandb: Run summary:
+wandb:                accuracy 1
+wandb:              batch_loss 0.00016
+wandb:            batch_sharpn 3.626
+wandb:                   epoch 128
+wandb:               full_loss 0.00032
+wandb:              lambda_max 3.98801
+wandb:       lobpcg_iterations 10
+wandb: number_of_gHg_estimates 5
+wandb:                    step 10061
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_005050-ylb4xv45
+wandb: Find logs at: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_005050-ylb4xv45/logs
+Started new wandb run: ylb4xv45
+Training started at 2025-11-15 00:50:50
+Will save checkpoints every 100 steps
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 1, Step 0: Total lambda max = 2.238044500350952, Loss = 1.000314474105835 !!!
+Checkpoint saved at step 0: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_0.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 2, Step 22: Total lambda max = 6.25280237197876, Loss = 0.8920436501502991 !!!
+Checkpoint saved at step 100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_100.pt
+Checkpoint saved at step 200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_200.pt
+Checkpoint saved at step 300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_300.pt
+Checkpoint saved at step 400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_400.pt
+Checkpoint saved at step 500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_500.pt
+Checkpoint saved at step 600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_600.pt
+Checkpoint saved at step 700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_700.pt
+Checkpoint saved at step 800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_800.pt
+Checkpoint saved at step 900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 13, Step 64: Total lambda max = 3.0794196128845215, Loss = 0.93504798412323 !!!
+Checkpoint saved at step 1000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1000.pt
+Checkpoint saved at step 1100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1100.pt
+Checkpoint saved at step 1200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1200.pt
+Checkpoint saved at step 1300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1300.pt
+Checkpoint saved at step 1400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1400.pt
+Checkpoint saved at step 1500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1500.pt
+Checkpoint saved at step 1600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1600.pt
+Checkpoint saved at step 1700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1700.pt
+Checkpoint saved at step 1800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1800.pt
+Checkpoint saved at step 1900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_1900.pt
+Checkpoint saved at step 2000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2000.pt
+Checkpoint saved at step 2100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2100.pt
+Checkpoint saved at step 2200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2200.pt
+Checkpoint saved at step 2300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2300.pt
+Checkpoint saved at step 2400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2400.pt
+Checkpoint saved at step 2500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2500.pt
+Checkpoint saved at step 2600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2600.pt
+Checkpoint saved at step 2700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2700.pt
+Checkpoint saved at step 2800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2800.pt
+Checkpoint saved at step 2900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_2900.pt
+Checkpoint saved at step 3000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3000.pt
+Checkpoint saved at step 3100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3100.pt
+Checkpoint saved at step 3200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3200.pt
+Checkpoint saved at step 3300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3300.pt
+Checkpoint saved at step 3400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3400.pt
+Checkpoint saved at step 3500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3500.pt
+Checkpoint saved at step 3600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3600.pt
+Checkpoint saved at step 3700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3700.pt
+Checkpoint saved at step 3800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3800.pt
+Checkpoint saved at step 3900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_3900.pt
+Checkpoint saved at step 4000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4000.pt
+Checkpoint saved at step 4100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4100.pt
+Checkpoint saved at step 4200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4200.pt
+Checkpoint saved at step 4300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4300.pt
+Checkpoint saved at step 4400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4400.pt
+Checkpoint saved at step 4500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4500.pt
+Checkpoint saved at step 4600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4600.pt
+Checkpoint saved at step 4700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4700.pt
+Checkpoint saved at step 4800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4800.pt
+Checkpoint saved at step 4900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_4900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 65, Step 8: Total lambda max = 4.467649936676025, Loss = 0.002408204134553671 !!!
+Checkpoint saved at step 5000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5000.pt
+Checkpoint saved at step 5100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5100.pt
+Checkpoint saved at step 5200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5200.pt
+Checkpoint saved at step 5300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5300.pt
+Checkpoint saved at step 5400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5400.pt
+Checkpoint saved at step 5500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5500.pt
+Checkpoint saved at step 5600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5600.pt
+Checkpoint saved at step 5700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5700.pt
+Checkpoint saved at step 5800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5800.pt
+Checkpoint saved at step 5900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_5900.pt
+Checkpoint saved at step 6000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6000.pt
+Checkpoint saved at step 6100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6100.pt
+Checkpoint saved at step 6200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6200.pt
+Checkpoint saved at step 6300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6300.pt
+Checkpoint saved at step 6400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6400.pt
+Checkpoint saved at step 6500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6500.pt
+Checkpoint saved at step 6600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6600.pt
+Checkpoint saved at step 6700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6700.pt
+Checkpoint saved at step 6800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6800.pt
+Checkpoint saved at step 6900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_6900.pt
+Checkpoint saved at step 7000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7000.pt
+Checkpoint saved at step 7100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7100.pt
+Checkpoint saved at step 7200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7200.pt
+Checkpoint saved at step 7300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7300.pt
+Checkpoint saved at step 7400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7400.pt
+Checkpoint saved at step 7500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7500.pt
+Checkpoint saved at step 7600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7600.pt
+Checkpoint saved at step 7700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7700.pt
+Checkpoint saved at step 7800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7800.pt
+Checkpoint saved at step 7900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_7900.pt
+Checkpoint saved at step 8000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8000.pt
+Checkpoint saved at step 8100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8100.pt
+Checkpoint saved at step 8200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8200.pt
+Checkpoint saved at step 8300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8300.pt
+Checkpoint saved at step 8400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8400.pt
+Checkpoint saved at step 8500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8500.pt
+Checkpoint saved at step 8600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8600.pt
+Checkpoint saved at step 8700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8700.pt
+Checkpoint saved at step 8800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8800.pt
+Checkpoint saved at step 8900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_8900.pt
+Checkpoint saved at step 9000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9000.pt
+Checkpoint saved at step 9100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9100.pt
+Checkpoint saved at step 9200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9200.pt
+Checkpoint saved at step 9300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9300.pt
+Checkpoint saved at step 9400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9400.pt
+Checkpoint saved at step 9500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9500.pt
+Checkpoint saved at step 9600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9600.pt
+Checkpoint saved at step 9700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9700.pt
+Checkpoint saved at step 9800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9800.pt
+Checkpoint saved at step 9900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_9900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 129, Step 16: Total lambda max = 3.988011598587036, Loss = 0.00032039755024015903 !!!
+Checkpoint saved at step 10000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_10000.pt
+Reached max steps 10000, stopping the training
+Final checkpoint saved: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/ylb4xv45/checkpoint_step_10061.pt
+Training finished at 2025-11-15 00:52:36
+Total training time: 105.24 seconds
+wandb: 
+wandb: Run history:
+wandb:                accuracy ▁▁▃██
+wandb:              batch_loss ██████▇▇▆▇▆▄▄▅▅▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:            batch_sharpn ▃▁▃██
+wandb:                   epoch ▁▁▁▂▂▃▃▃▃▃▄▄▄▄▄▄▄▅▅▅▅▅▆▆▆▆▆▆▆▇▇▇▇▇▇▇▇███
+wandb:               full_loss █▇▆▁▁
+wandb:              lambda_max ▁▂█▄▅
+wandb:       lobpcg_iterations █▅▁▃▃
+wandb: number_of_gHg_estimates ▁▁▁▁▁
+wandb:                    step ▁▁▁▁▁▁▁▁▂▂▂▂▃▃▃▃▃▃▃▄▄▄▄▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇█
+wandb: 
+wandb: Run summary:
+wandb:                accuracy 1
+wandb:              batch_loss 9e-05
+wandb:            batch_sharpn 3.60745
+wandb:                   epoch 128
+wandb:               full_loss 7e-05
+wandb:              lambda_max 4.17444
+wandb:       lobpcg_iterations 8
+wandb: number_of_gHg_estimates 5
+wandb:                    step 10061
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_005052-qeunwn4h
+wandb: Find logs at: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb/offline-run-20251115_005052-qeunwn4h/logs
+Started new wandb run: qeunwn4h
+Training started at 2025-11-15 00:50:52
+Will save checkpoints every 100 steps
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 1, Step 0: Total lambda max = 2.2877867221832275, Loss = 1.0000618696212769 !!!
+Checkpoint saved at step 0: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_0.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 2, Step 22: Total lambda max = 2.7352294921875, Loss = 0.8957061767578125 !!!
+Checkpoint saved at step 100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_100.pt
+Checkpoint saved at step 200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_200.pt
+Checkpoint saved at step 300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_300.pt
+Checkpoint saved at step 400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_400.pt
+Checkpoint saved at step 500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_500.pt
+Checkpoint saved at step 600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_600.pt
+Checkpoint saved at step 700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_700.pt
+Checkpoint saved at step 800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_800.pt
+Checkpoint saved at step 900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 13, Step 64: Total lambda max = 5.973611831665039, Loss = 0.7828646898269653 !!!
+Checkpoint saved at step 1000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1000.pt
+Checkpoint saved at step 1100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1100.pt
+Checkpoint saved at step 1200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1200.pt
+Checkpoint saved at step 1300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1300.pt
+Checkpoint saved at step 1400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1400.pt
+Checkpoint saved at step 1500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1500.pt
+Checkpoint saved at step 1600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1600.pt
+Checkpoint saved at step 1700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1700.pt
+Checkpoint saved at step 1800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1800.pt
+Checkpoint saved at step 1900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_1900.pt
+Checkpoint saved at step 2000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2000.pt
+Checkpoint saved at step 2100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2100.pt
+Checkpoint saved at step 2200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2200.pt
+Checkpoint saved at step 2300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2300.pt
+Checkpoint saved at step 2400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2400.pt
+Checkpoint saved at step 2500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2500.pt
+Checkpoint saved at step 2600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2600.pt
+Checkpoint saved at step 2700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2700.pt
+Checkpoint saved at step 2800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2800.pt
+Checkpoint saved at step 2900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_2900.pt
+Checkpoint saved at step 3000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3000.pt
+Checkpoint saved at step 3100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3100.pt
+Checkpoint saved at step 3200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3200.pt
+Checkpoint saved at step 3300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3300.pt
+Checkpoint saved at step 3400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3400.pt
+Checkpoint saved at step 3500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3500.pt
+Checkpoint saved at step 3600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3600.pt
+Checkpoint saved at step 3700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3700.pt
+Checkpoint saved at step 3800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3800.pt
+Checkpoint saved at step 3900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_3900.pt
+Checkpoint saved at step 4000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4000.pt
+Checkpoint saved at step 4100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4100.pt
+Checkpoint saved at step 4200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4200.pt
+Checkpoint saved at step 4300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4300.pt
+Checkpoint saved at step 4400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4400.pt
+Checkpoint saved at step 4500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4500.pt
+Checkpoint saved at step 4600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4600.pt
+Checkpoint saved at step 4700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4700.pt
+Checkpoint saved at step 4800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4800.pt
+Checkpoint saved at step 4900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_4900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 65, Step 8: Total lambda max = 4.022480010986328, Loss = 0.0010599130764603615 !!!
+Checkpoint saved at step 5000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5000.pt
+Checkpoint saved at step 5100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5100.pt
+Checkpoint saved at step 5200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5200.pt
+Checkpoint saved at step 5300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5300.pt
+Checkpoint saved at step 5400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5400.pt
+Checkpoint saved at step 5500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5500.pt
+Checkpoint saved at step 5600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5600.pt
+Checkpoint saved at step 5700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5700.pt
+Checkpoint saved at step 5800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5800.pt
+Checkpoint saved at step 5900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_5900.pt
+Checkpoint saved at step 6000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6000.pt
+Checkpoint saved at step 6100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6100.pt
+Checkpoint saved at step 6200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6200.pt
+Checkpoint saved at step 6300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6300.pt
+Checkpoint saved at step 6400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6400.pt
+Checkpoint saved at step 6500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6500.pt
+Checkpoint saved at step 6600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6600.pt
+Checkpoint saved at step 6700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6700.pt
+Checkpoint saved at step 6800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6800.pt
+Checkpoint saved at step 6900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_6900.pt
+Checkpoint saved at step 7000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7000.pt
+Checkpoint saved at step 7100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7100.pt
+Checkpoint saved at step 7200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7200.pt
+Checkpoint saved at step 7300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7300.pt
+Checkpoint saved at step 7400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7400.pt
+Checkpoint saved at step 7500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7500.pt
+Checkpoint saved at step 7600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7600.pt
+Checkpoint saved at step 7700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7700.pt
+Checkpoint saved at step 7800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7800.pt
+Checkpoint saved at step 7900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_7900.pt
+Checkpoint saved at step 8000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8000.pt
+Checkpoint saved at step 8100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8100.pt
+Checkpoint saved at step 8200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8200.pt
+Checkpoint saved at step 8300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8300.pt
+Checkpoint saved at step 8400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8400.pt
+Checkpoint saved at step 8500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8500.pt
+Checkpoint saved at step 8600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8600.pt
+Checkpoint saved at step 8700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8700.pt
+Checkpoint saved at step 8800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8800.pt
+Checkpoint saved at step 8900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_8900.pt
+Checkpoint saved at step 9000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9000.pt
+Checkpoint saved at step 9100: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9100.pt
+Checkpoint saved at step 9200: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9200.pt
+Checkpoint saved at step 9300: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9300.pt
+Checkpoint saved at step 9400: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9400.pt
+Checkpoint saved at step 9500: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9500.pt
+Checkpoint saved at step 9600: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9600.pt
+Checkpoint saved at step 9700: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9700.pt
+Checkpoint saved at step 9800: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9800.pt
+Checkpoint saved at step 9900: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_9900.pt
+Warning: Computing eigenvalues on subset of 256 samples instead of full dataset (10000 samples) due to memory/time constraints. Most of the time it is fine, but should be corrected
+Epoch 129, Step 16: Total lambda max = 4.174439907073975, Loss = 7.142920367186889e-05 !!!
+Checkpoint saved at step 10000: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_10000.pt
+Reached max steps 10000, stopping the training
+Final checkpoint saved: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb_checkpoints/qeunwn4h/checkpoint_step_10061.pt
+Training finished at 2025-11-15 00:52:37
+Total training time: 104.09 seconds
+
+============================================================
+Training: LR=0.4, Run=1/1 on GPU 1
+Seed: 1041
+============================================================
+
+============================================================
+Training: LR=0.5, Run=0/1 on GPU 2
+Seed: 1050
+============================================================
+
+============================================================
+Training: LR=0.4, Run=0/1 on GPU 0
+Seed: 1040
+============================================================
+
+============================================================
+Training: LR=0.6, Run=1/1 on GPU 1
+Seed: 1061
+============================================================
+
+============================================================
+Training: LR=0.5, Run=1/1 on GPU 3
+Seed: 1051
+============================================================
+
+============================================================
+Training: LR=0.6, Run=0/1 on GPU 0
+Seed: 1060
+============================================================
+Submitted 6 tasks to 4 GPU(s)
+Processing as GPUs become available...
+
+✓ [1/6] Completed: LR=0.5, Run=1, GPU=3
+✓ [2/6] Completed: LR=0.4, Run=0, GPU=0
+✓ [3/6] Completed: LR=0.4, Run=1, GPU=1
+✓ [4/6] Completed: LR=0.5, Run=0, GPU=2
+✓ [5/6] Completed: LR=0.6, Run=1, GPU=1
+✓ [6/6] Completed: LR=0.6, Run=0, GPU=0
+
+============================================================
+TRAINING COMPLETE
+============================================================
+Successful runs: 6/6
+Results saved to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/training_results.json
+
+GPU Utilization Summary:
+  GPU 0: 2/2 runs successful
+  GPU 1: 2/2 runs successful
+  GPU 2: 1/1 runs successful
+  GPU 3: 1/1 runs successful
+
+============================================================
+EXPERIMENT COMPLETE
+============================================================
+Plots and results saved to: /om2/user/jefffrey/mean-behavior-is-differentiable/results
+[1/4] Training complete
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'repr' attribute with value False was provided to the `Field()` function, which has no effect in the context it was used. 'repr' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+/om2/user/jefffrey/anaconda/envs/mean-behavior/lib/python3.10/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'frozen' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'frozen' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+wandb: ERROR Nothing to sync.
+Warning: wandb not available. Visualization features will be limited.
+
+============================================================
+COLLECTING LOGITS
+============================================================
+Test set size: 10000
+Number of checkpoints: 7
+Checkpoint steps: [0, 100, 1000, 5000, 10000, 50000, 100000]
+
+============================================================
+CHECKPOINT STEP: 0
+============================================================
+
+  Processing LR=0.4 at step 0
+    Run 0: Already exists, skipping
+    Run 1: Already exists, skipping
+
+  Processing LR=0.5 at step 0
+    Run 0: Already exists, skipping
+    Run 1: Already exists, skipping
+
+  Processing LR=0.6 at step 0
+    Run 0: Already exists, skipping
+    Run 1: Already exists, skipping
+
+============================================================
+CHECKPOINT STEP: 100
+============================================================
+
+  Processing LR=0.4 at step 100
+    Run 0: Already exists, skipping
+    Run 1: Already exists, skipping
+
+  Processing LR=0.5 at step 100
+    Run 0: Already exists, skipping
+    Run 1: Already exists, skipping
+
+  Processing LR=0.6 at step 100
+    Run 0: Already exists, skipping
+    Run 1: Already exists, skipping
+
+============================================================
+CHECKPOINT STEP: 1000
+============================================================
+
+  Processing LR=0.4 at step 1000
+    Run 0: Already exists, skipping
+    Run 1: Already exists, skipping
+
+  Processing LR=0.5 at step 1000
+    Run 0: Already exists, skipping
+    Run 1: Already exists, skipping
+
+  Processing LR=0.6 at step 1000
+    Run 0: Already exists, skipping
+    Run 1: Already exists, skipping
+
+============================================================
+CHECKPOINT STEP: 5000
+============================================================
+
+  Processing LR=0.4 at step 5000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run0
+  LR=0.4, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run1
+  LR=0.4, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+  Processing LR=0.5 at step 5000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run0
+  LR=0.5, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run1
+  LR=0.5, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+  Processing LR=0.6 at step 5000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run0
+  LR=0.6, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run1
+  LR=0.6, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+============================================================
+CHECKPOINT STEP: 10000
+============================================================
+
+  Processing LR=0.4 at step 10000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run0
+  LR=0.4, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run1
+  LR=0.4, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+  Processing LR=0.5 at step 10000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run0
+  LR=0.5, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run1
+  LR=0.5, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+  Processing LR=0.6 at step 10000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run0
+  LR=0.6, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run1
+  LR=0.6, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+============================================================
+CHECKPOINT STEP: 50000
+============================================================
+
+  Processing LR=0.4 at step 50000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run0
+  LR=0.4, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run1
+  LR=0.4, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+  Processing LR=0.5 at step 50000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run0
+  LR=0.5, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run1
+  LR=0.5, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+  Processing LR=0.6 at step 50000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run0
+  LR=0.6, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run1
+  LR=0.6, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+============================================================
+CHECKPOINT STEP: 100000
+============================================================
+
+  Processing LR=0.4 at step 100000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run0
+  LR=0.4, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run1
+  LR=0.4, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.4-exp_lr0.4_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+  Processing LR=0.5 at step 100000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run0
+  LR=0.5, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run1
+  LR=0.5, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.5-exp_lr0.5_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+  Processing LR=0.6 at step 100000
+    Run 0: Collecting logits...
+    Run 0: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run0
+  LR=0.6, run_idx=0
+  Expected run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run0
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+    Run 1: Collecting logits...
+    Run 1: Failed to collect logits: Could not find run_id for run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run1
+  LR=0.6, run_idx=1
+  Expected run name: cifar10_cnn_b128_lr0.6-exp_lr0.6_run1
+  Searched in: /om2/user/jefffrey/mean-behavior-is-differentiable/results/wandb
+  Make sure training has completed and wandb metadata exists.
+
+============================================================
+LOGIT COLLECTION COMPLETE
+============================================================
+Total checkpoints processed: 7
+Total runs per checkpoint: 6
+
+============================================================
+EXPERIMENT COMPLETE
+============================================================
+Plots and results saved to: /om2/user/jefffrey/mean-behavior-is-differentiable/results
+[2/4] Logit collection complete
+Warning: wandb not available. Visualization features will be limited.
+
+============================================================
+AGGREGATING LOGITS
+============================================================
+
+Aggregating LR=0.4, step=0
+Aggregated logits for LR=0.4, step=0: shape=(2, 10000, 10)
+  Saved aggregated logits to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/logits_lr04/step_0/aggregated.npy
+  Shape: (2, 10000, 10)
+
+Aggregating LR=0.5, step=0
+Aggregated logits for LR=0.5, step=0: shape=(2, 10000, 10)
+  Saved aggregated logits to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/logits_lr05/step_0/aggregated.npy
+  Shape: (2, 10000, 10)
+
+Aggregating LR=0.6, step=0
+Aggregated logits for LR=0.6, step=0: shape=(2, 10000, 10)
+  Saved aggregated logits to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/logits_lr06/step_0/aggregated.npy
+  Shape: (2, 10000, 10)
+
+Aggregating LR=0.4, step=100
+Aggregated logits for LR=0.4, step=100: shape=(2, 10000, 10)
+  Saved aggregated logits to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/logits_lr04/step_100/aggregated.npy
+  Shape: (2, 10000, 10)
+
+Aggregating LR=0.5, step=100
+Aggregated logits for LR=0.5, step=100: shape=(2, 10000, 10)
+  Saved aggregated logits to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/logits_lr05/step_100/aggregated.npy
+  Shape: (2, 10000, 10)
+
+Aggregating LR=0.6, step=100
+Aggregated logits for LR=0.6, step=100: shape=(2, 10000, 10)
+  Saved aggregated logits to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/logits_lr06/step_100/aggregated.npy
+  Shape: (2, 10000, 10)
+
+Aggregating LR=0.4, step=1000
+Aggregated logits for LR=0.4, step=1000: shape=(2, 10000, 10)
+  Saved aggregated logits to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/logits_lr04/step_1000/aggregated.npy
+  Shape: (2, 10000, 10)
+
+Aggregating LR=0.5, step=1000
+Aggregated logits for LR=0.5, step=1000: shape=(2, 10000, 10)
+  Saved aggregated logits to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/logits_lr05/step_1000/aggregated.npy
+  Shape: (2, 10000, 10)
+
+Aggregating LR=0.6, step=1000
+Aggregated logits for LR=0.6, step=1000: shape=(2, 10000, 10)
+  Saved aggregated logits to: /net/vast-storage/scratch/vast/cbmm/jefffrey/mean-behavior-is-differentiable/experiment/data/logits_lr06/step_1000/aggregated.npy
+  Shape: (2, 10000, 10)
+
+Aggregating LR=0.4, step=5000
+Warning: Missing logits for LR=0.4, run=0, step=5000
+
+Aggregating LR=0.5, step=5000
+Warning: Missing logits for LR=0.5, run=0, step=5000
+
+Aggregating LR=0.6, step=5000
+Warning: Missing logits for LR=0.6, run=0, step=5000
+
+Aggregating LR=0.4, step=10000
+Warning: Missing logits for LR=0.4, run=0, step=10000
+
+Aggregating LR=0.5, step=10000
+Warning: Missing logits for LR=0.5, run=0, step=10000
+
+Aggregating LR=0.6, step=10000
+Warning: Missing logits for LR=0.6, run=0, step=10000
+
+Aggregating LR=0.4, step=50000
+Warning: Missing logits for LR=0.4, run=0, step=50000
+
+Aggregating LR=0.5, step=50000
+Warning: Missing logits for LR=0.5, run=0, step=50000
+
+Aggregating LR=0.6, step=50000
+Warning: Missing logits for LR=0.6, run=0, step=50000
+
+Aggregating LR=0.4, step=100000
+Warning: Missing logits for LR=0.4, run=0, step=100000
+
+Aggregating LR=0.5, step=100000
+Warning: Missing logits for LR=0.5, run=0, step=100000
+
+Aggregating LR=0.6, step=100000
+Warning: Missing logits for LR=0.6, run=0, step=100000
+
+============================================================
+AGGREGATION COMPLETE
+============================================================
+
+============================================================
+SAVING LOGITS TO DATAFRAME
+============================================================
+
+Processing LR=0.4, step=0
+
+Processing LR=0.5, step=0
+
+Processing LR=0.6, step=0
+
+Processing LR=0.4, step=100
+
+Processing LR=0.5, step=100
+
+Processing LR=0.6, step=100
+
+Processing LR=0.4, step=1000
+
+Processing LR=0.5, step=1000
+
+Processing LR=0.6, step=1000
+
+Processing LR=0.4, step=5000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.5, step=5000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.6, step=5000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.4, step=10000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.5, step=10000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.6, step=10000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.4, step=50000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.5, step=50000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.6, step=50000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.4, step=100000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.5, step=100000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Processing LR=0.6, step=100000
+  Warning: Missing file for run 0
+  Warning: Missing file for run 1
+
+Warning: Could not save as parquet (Unable to find a usable engine; tried using: 'pyarrow', 'fastparquet'.
+A suitable version of pyarrow or fastparquet is required for parquet support.
+Trying to import the above resulted in these errors:
+ - Missing optional dependency 'pyarrow'. pyarrow is required for parquet support. Use pip or conda to install pyarrow.
+ - Missing optional dependency 'fastparquet'. fastparquet is required for parquet support. Use pip or conda to install fastparquet.), using CSV instead
+Shape: (1800000, 6)
+Columns: ['lr', 'step', 'run_idx', 'test_sample_idx', 'class_idx', 'logit_value']
+Saved CSV to results directory: /om2/user/jefffrey/mean-behavior-is-differentiable/results/logits_dataframe.csv.gz
+Saved summary to: /om2/user/jefffrey/mean-behavior-is-differentiable/results/logits_summary.csv
+
+Logits DataFrame created with shape: (1800000, 6)
+Logits summary saved to: /om2/user/jefffrey/mean-behavior-is-differentiable/results/logits_summary.csv
+
+============================================================
+EXPERIMENT COMPLETE
+============================================================
+Plots and results saved to: /om2/user/jefffrey/mean-behavior-is-differentiable/results
+[3/4] Aggregation complete
+Warning: wandb not available. Visualization features will be limited.
+
+============================================================
+GENERATING CORRELATION PLOTS FOR ALL SNAPSHOTS
+============================================================
+
+============================================================
+GENERATING CORRELATION PLOT (step 0)
+============================================================
+LR=0.4: Loaded 2 runs, shape=(2, 10000, 10)
+LR=0.5: Loaded 2 runs, shape=(2, 10000, 10)
+LR=0.6: Loaded 2 runs, shape=(2, 10000, 10)
+Mean logit shapes: (10000, 10)
+Error: All x values are identical at step 0. Cannot compute linear regression.
+  This likely means logits for LR=0.5 and LR=0.4 are identical or very close.
+  xx range: [0.000000, 0.000000]
+  yy range: [0.000000, 0.000000]
+  Skipping plot for step 0.
+
+============================================================
+GENERATING CORRELATION PLOT (step 100)
+============================================================
+LR=0.4: Loaded 2 runs, shape=(2, 10000, 10)
+LR=0.5: Loaded 2 runs, shape=(2, 10000, 10)
+LR=0.6: Loaded 2 runs, shape=(2, 10000, 10)
+Mean logit shapes: (10000, 10)
+Error: All x values are identical at step 100. Cannot compute linear regression.
+  This likely means logits for LR=0.5 and LR=0.4 are identical or very close.
+  xx range: [0.000000, 0.000000]
+  yy range: [0.000000, 0.000000]
+  Skipping plot for step 100.
+
+============================================================
+GENERATING CORRELATION PLOT (step 1000)
+============================================================
+LR=0.4: Loaded 2 runs, shape=(2, 10000, 10)
+LR=0.5: Loaded 2 runs, shape=(2, 10000, 10)
+LR=0.6: Loaded 2 runs, shape=(2, 10000, 10)
+Mean logit shapes: (10000, 10)
+Error: All x values are identical at step 1000. Cannot compute linear regression.
+  This likely means logits for LR=0.5 and LR=0.4 are identical or very close.
+  xx range: [0.000000, 0.000000]
+  yy range: [0.000000, 0.000000]
+  Skipping plot for step 1000.
+
+============================================================
+GENERATING CORRELATION PLOT (step 5000)
+============================================================
+Warning: Missing logits for LR=0.4, run=0 at step 5000
+Warning: Missing logits for LR=0.4, run=1 at step 5000
+Warning: Missing logits for LR=0.5, run=0 at step 5000
+Warning: Missing logits for LR=0.5, run=1 at step 5000
+Warning: Missing logits for LR=0.6, run=0 at step 5000
+Warning: Missing logits for LR=0.6, run=1 at step 5000
+Error: Need logits for all 3 learning rates at step 5000. Skipping plot.
+  Available LRs: []
+
+============================================================
+GENERATING CORRELATION PLOT (step 10000)
+============================================================
+Warning: Missing logits for LR=0.4, run=0 at step 10000
+Warning: Missing logits for LR=0.4, run=1 at step 10000
+Warning: Missing logits for LR=0.5, run=0 at step 10000
+Warning: Missing logits for LR=0.5, run=1 at step 10000
+Warning: Missing logits for LR=0.6, run=0 at step 10000
+Warning: Missing logits for LR=0.6, run=1 at step 10000
+Error: Need logits for all 3 learning rates at step 10000. Skipping plot.
+  Available LRs: []
+
+============================================================
+GENERATING CORRELATION PLOT (step 50000)
+============================================================
+Warning: Missing logits for LR=0.4, run=0 at step 50000
+Warning: Missing logits for LR=0.4, run=1 at step 50000
+Warning: Missing logits for LR=0.5, run=0 at step 50000
+Warning: Missing logits for LR=0.5, run=1 at step 50000
+Warning: Missing logits for LR=0.6, run=0 at step 50000
+Warning: Missing logits for LR=0.6, run=1 at step 50000
+Error: Need logits for all 3 learning rates at step 50000. Skipping plot.
+  Available LRs: []
+
+============================================================
+GENERATING CORRELATION PLOT (step 100000)
+============================================================
+Warning: Missing logits for LR=0.4, run=0 at step 100000
+Warning: Missing logits for LR=0.4, run=1 at step 100000
+Warning: Missing logits for LR=0.5, run=0 at step 100000
+Warning: Missing logits for LR=0.5, run=1 at step 100000
+Warning: Missing logits for LR=0.6, run=0 at step 100000
+Warning: Missing logits for LR=0.6, run=1 at step 100000
+Error: Need logits for all 3 learning rates at step 100000. Skipping plot.
+  Available LRs: []
+
+============================================================
+GENERATING SHARPNESS PLOTS
+============================================================
+Loading metrics from results.txt files...
+Loaded metrics from 20251115_0048_51_lr0.40000_b128 (LR=0.4): 10062 data points, 5 batch_sharpness, 5 lambda_max
+Loaded metrics from 20251115_0048_51_lr0.50000_b128 (LR=0.5): 10062 data points, 5 batch_sharpness, 5 lambda_max
+Loaded metrics from 20251115_0048_53_lr0.40000_b128 (LR=0.4): 10062 data points, 5 batch_sharpness, 5 lambda_max
+Loaded metrics from 20251115_0048_53_lr0.50000_b128 (LR=0.5): 10062 data points, 5 batch_sharpness, 5 lambda_max
+Loaded metrics from 20251115_0050_48_lr0.60000_b128 (LR=0.6): 10062 data points, 5 batch_sharpness, 5 lambda_max
+Loaded metrics from 20251115_0050_50_lr0.60000_b128 (LR=0.6): 10062 data points, 5 batch_sharpness, 5 lambda_max
+
+LR=0.4: 2 batch_sharpness runs, 2 lambda_max runs
+
+LR=0.5: 2 batch_sharpness runs, 2 lambda_max runs
+
+LR=0.6: 2 batch_sharpness runs, 2 lambda_max runs
+
+Saving sharpness plot to: /om2/user/jefffrey/mean-behavior-is-differentiable/results/sharpness_comparison.png
+Sharpness plot saved successfully to: /om2/user/jefffrey/mean-behavior-is-differentiable/results/sharpness_comparison.png
+
+============================================================
+EXPERIMENT COMPLETE
+============================================================
+Plots and results saved to: /om2/user/jefffrey/mean-behavior-is-differentiable/results
+[4/4] Analysis complete
+Done at Sat Nov 15 00:53:20 EST 2025 | Results: /om2/user/jefffrey/mean-behavior-is-differentiable/results
+Total runtime: 0h 4m 43s (283 seconds)

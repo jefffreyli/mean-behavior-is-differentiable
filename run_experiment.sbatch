@@ -53,8 +53,24 @@ echo "CUDA_VISIBLE_DEVICES (from SLURM): ${CUDA_VISIBLE_DEVICES:-not set}"
 # Set PyTorch memory management to reduce fragmentation
 export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128
 
+# Clear GPU cache
+echo "Clearing GPU cache..."
+python -c "import torch; torch.cuda.empty_cache() if torch.cuda.is_available() else None" || echo "GPU cache clear skipped (CUDA not available or error)"
+echo "GPU memory status:"
+nvidia-smi --query-gpu=index,memory.used,memory.total --format=csv,noheader,nounits || echo "GPU status check failed"
+
 # Clean state: Remove previous logits, aggregated data, and plots
 echo "Cleaning previous experiment outputs for a clean state..."
+
+# Clear entire results directory for a completely clean start
+if [ -d "$RESULTS" ]; then
+    echo "  Removing entire results directory..."
+    rm -rf "$RESULTS"
+    echo "  Results directory removed"
+fi
+# Recreate results directory
+mkdir -p "$RESULTS"
+echo "  Results directory recreated"
 
 # Remove logits directories (individual and aggregated)
 if [ -d "experiment/data" ]; then

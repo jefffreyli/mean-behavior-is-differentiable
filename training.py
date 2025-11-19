@@ -175,7 +175,15 @@ class MeasurementRunner:
 
         if lmax_now:
             if str(self.device).startswith('cuda'):
-                torch.cuda.empty_cache()
+                # More aggressive memory cleanup before measurement
+                torch.cuda.synchronize()  # Wait for all operations to complete
+                torch.cuda.empty_cache()  # Clear cache
+                
+                # Check available memory and adjust subset size if needed
+                allocated = torch.cuda.memory_allocated(0)
+                reserved = torch.cuda.memory_reserved(0)
+                free_memory = torch.cuda.get_device_properties(0).total_memory - reserved
+                
             optimizer.zero_grad()
 
             lmax_max_size = 4096
@@ -188,6 +196,13 @@ class MeasurementRunner:
                         lmax_max_size = 2048
                     if isinstance(self.net, ResNet):
                         lmax_max_size = 512
+                
+                # If memory is fragmented (reserved >> allocated), reduce subset size
+                allocated = torch.cuda.memory_allocated(0)
+                reserved = torch.cuda.memory_reserved(0)
+                if reserved > allocated * 1.5 and reserved > 1024**3:  # Significant fragmentation (>1GB reserved)
+                    print(f"Warning: Memory fragmentation detected (reserved={reserved/1024**3:.2f}GB, allocated={allocated/1024**3:.2f}GB). Reducing subset size.")
+                    lmax_max_size = min(lmax_max_size, 2048)  # Reduce from 4096 to 2048
 
             if len(self.X) > lmax_max_size:
                 print(
@@ -199,7 +214,22 @@ class MeasurementRunner:
                 X_subset = self.X
                 Y_subset = self.Y
 
-            preds = self.net(X_subset).squeeze(dim=-1)
+            # Try to run forward pass, catch OOM and retry with smaller subset
+            try:
+                preds = self.net(X_subset).squeeze(dim=-1)
+            except torch.cuda.OutOfMemoryError:
+                print(f"Warning: OOM during measurement collection. Clearing cache and retrying with smaller subset...")
+                if str(self.device).startswith('cuda'):
+                    torch.cuda.empty_cache()
+                # Reduce subset size by half and retry
+                reduced_size = len(X_subset) // 2
+                if reduced_size < 512:
+                    reduced_size = 512  # Minimum size
+                idx = gimme_random_subset_idx(len(self.X), reduced_size)
+                X_subset = self.X[idx]
+                Y_subset = self.Y[idx]
+                preds = self.net(X_subset).squeeze(dim=-1)
+            
             loss = self.loss_fn(preds, Y_subset)
 
             if self.eigenvector_cache is not None:
@@ -787,18 +817,47 @@ def train(
 
                 loss = loss_fn(preds, Y_batch)
 
+                # Check for inf/NaN loss with better error reporting
                 if math.isinf(loss.item()) or math.isnan(loss.item()):
+                    # Log additional diagnostic information before failing
+                    print(f"\n{'='*60}")
+                    print(f"ERROR: Loss became {'inf' if math.isinf(loss.item()) else 'NaN'} at step {step_number}, epoch {epoch}")
+                    print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
+                    print(f"Batch size: {X_batch.shape[0]}")
+                    print(f"Training mode: Gradient projection")
+                    # Check for inf/NaN in gradients
+                    has_inf_grad = False
+                    has_nan_grad = False
+                    for name, param in net.named_parameters():
+                        if param.grad is not None:
+                            if torch.isinf(param.grad).any():
+                                has_inf_grad = True
+                                print(f"  Found inf gradient in {name}")
+                            if torch.isnan(param.grad).any():
+                                has_nan_grad = True
+                                print(f"  Found NaN gradient in {name}")
+                    if has_inf_grad or has_nan_grad:
+                        print(f"  Gradient clipping may help prevent this issue")
+                    print(f"{'='*60}\n")
                     results_file.flush()
                     results_file.close()
                     if wandb_run is not None:
                         wandb_run.finish()
                     raise ValueError(
-                        "Loss is inf or NaN, stopping the training")
+                        f"Loss is {'inf' if math.isinf(loss.item()) else 'NaN'} at step {step_number}, stopping the training")
 
                 # Backward pass for minibatch gradient
                 loss.backward()
 
+                # Gradient clipping to prevent numerical instability
+                # Clip gradients to prevent exploding gradients that cause inf/NaN loss
+                torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=10.0)
+
                 optimizer.step()
+                
+                # Clear cache periodically to prevent memory fragmentation
+                if step_number % 100 == 0 and str(device).startswith('cuda'):
+                    torch.cuda.empty_cache()
 
                 params_after_step = flatten_params(net).clone()
 
@@ -844,13 +903,33 @@ def train(
 
                 loss = loss_fn(preds, Y_batch)
 
+                # Check for inf/NaN loss with better error reporting
                 if math.isinf(loss.item()) or math.isnan(loss.item()):
+                    # Log additional diagnostic information before failing
+                    print(f"\n{'='*60}")
+                    print(f"ERROR: Loss became {'inf' if math.isinf(loss.item()) else 'NaN'} at step {step_number}, epoch {epoch}")
+                    print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
+                    print(f"Batch size: {X_batch.shape[0]}")
+                    # Check for inf/NaN in gradients
+                    has_inf_grad = False
+                    has_nan_grad = False
+                    for name, param in net.named_parameters():
+                        if param.grad is not None:
+                            if torch.isinf(param.grad).any():
+                                has_inf_grad = True
+                                print(f"  Found inf gradient in {name}")
+                            if torch.isnan(param.grad).any():
+                                has_nan_grad = True
+                                print(f"  Found NaN gradient in {name}")
+                    if has_inf_grad or has_nan_grad:
+                        print(f"  Gradient clipping may help prevent this issue")
+                    print(f"{'='*60}\n")
                     results_file.flush()
                     results_file.close()
                     if wandb_run is not None:
                         wandb_run.finish()
                     raise ValueError(
-                        "Loss is inf or NaN, stopping the training")
+                        f"Loss is {'inf' if math.isinf(loss.item()) else 'NaN'} at step {step_number}, stopping the training")
 
                 # Check if we should initialize quadratic approximation
                 if quad_approx is not None:
@@ -861,7 +940,15 @@ def train(
                 # Backward pass for minibatch gradient
                 loss.backward()
 
+                # Gradient clipping to prevent numerical instability
+                # Clip gradients to prevent exploding gradients that cause inf/NaN loss
+                torch.nn.utils.clip_grad_norm_(net.parameters(), max_norm=10.0)
+
                 optimizer.step()
+                
+                # Clear cache periodically to prevent memory fragmentation
+                if step_number % 100 == 0 and str(device).startswith('cuda'):
+                    torch.cuda.empty_cache()
 
             # Handle loss value (SDE returns float, others return tensor)
             batch_loss = loss if isinstance(loss, float) else loss.item()
